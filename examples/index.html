@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>夜</title>
+  </head>
+  <body>
+    <demo-title></demo-title>
+    <demo-title></demo-title>
+    <my-component></my-component>
+
+    <template id="yoru-demo-title">
+      <h1>
+        <span>{{appLogo}}</span>
+        <span>{{appTitle}}</span>
+      </h1>
+      <h5>
+        Generated at {{generatedAt}}
+      </h5>
+    </template>
+
+    <template id="yoru-my-component">
+      <h1>{{title}}</h1>
+      <h2>{{title}}</h2>
+      <h3>{{title}}</h3>
+      <h4>{{title}}</h4>
+      <h5>{{title}}</h5>
+      <h6>{{title}}</h6>
+
+      <span>Static text with an image next to it &rarr;</span>
+      <img src="{{url}}" alt="Some image">
+    </template>
+
+    <script type="text/javascript" src="./yoru.pkg.js"></script>
+    <script type="text/javascript">
+      if (window.Yoru) {
+        const app = new Yoru();
+
+        app.registerComponent('DemoTitle', {
+          model() {
+            return {
+              appLogo: '夜',
+              appTitle: 'ＹＯＲＵ',
+              generatedAt: new Date(),
+            };
+          }
+        });
+
+        app.registerComponent('MyComponent', {
+          model() {
+            return {
+              title: 'Test of components',
+              url: 'https://unsplash.it/150/150',
+            };
+          },
+        });
+
+        app.boot();
+      }
+    </script>
+  </body>
+</html>

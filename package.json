@@ -1,0 +1,35 @@
+{
+  "name": "yoru",
+  "version": "0.0.1",
+  "description": "A lightweight JavaScript framework based on Shadow DOM",
+  "main": "yoru.js",
+  "directories": {
+    "example": "examples",
+    "test": "test"
+  },
+  "dependencies": {
+    "babel-cli": "^6.24.1",
+    "eslint": "^3.19.0"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.24.1",
+    "babel-core": "^6.0.20",
+    "babel-eslint": "^6.1.2",
+    "babel-polyfill": "^6.23.0",
+    "babel-preset-latest": "^6.24.1",
+    "babel-preset-stage-0": "^6.0.15",
+    "eslint": "^3.19.0",
+    "webpack": "^2.5.1"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "yoru",
+    "framework",
+    "shadow",
+    "dom"
+  ],
+  "author": "Guillaume `Schlipak` de Matos",
+  "license": "MIT"
+}
