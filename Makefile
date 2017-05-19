@@ -2,6 +2,9 @@ NAME = yoru
 SKEL_DIRS = examples/ lib/ test/ src/
 ESLINT_DIRS = list/ test/ src/
 
+EXEC_BABEL = ./node_modules/.bin/babel
+EXEC_WEBPACK = ./node_modules/.bin/webpack
+
 all: eslint babel
 
 eslint:
@@ -16,9 +19,9 @@ babel:
 	@echo -e "[\033[1;31mRM\033[0m] Clean compiled examples/"
 	@rm -rf examples/yoru.*
 	@echo -e "[\033[1;34mTRANS\033[0m] Running Babel"
-	@babel $(NAME).js src/ --out-dir dist/
+	@$(EXEC_BABEL) $(NAME).js src/ --out-dir dist/
 	@echo -e "[\033[1;34mPACK\033[0m] Running Webpack"
-	@./node_modules/.bin/webpack dist/yoru.js examples/yoru.pkg.js
+	@$(EXEC_WEBPACK) dist/yoru.js examples/yoru.pkg.js
 	@echo -e "[\033[1;32mOK\033[0m] All done!"
 
 skel:
