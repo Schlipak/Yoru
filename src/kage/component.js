@@ -3,6 +3,7 @@
 //
 
 import YoruObject from '../yoru-object';
+const Handlebars = require('handlebars');
 
 export default class Component extends YoruObject {
   constructor(name, opts = {}) {
@@ -19,19 +20,16 @@ export default class Component extends YoruObject {
     return `Component-${this.name}`;
   }
 
-  applyModel(rootNode, shadow, content) {
+  applyModel(rootNode, shadow, template) {
     this.rootNode = rootNode;
     this.shadow = shadow;
 
     const model = this.opts.model.call(this);
-    let containerNode = document.createElement('div').appendChild(content);
-    let contentStr = containerNode.innerHTML;
-    contentStr = contentStr.replace(/{{([\w\d-_.]+)}}/g, match => {
-      const property = match.replace(/{{|}}/g, '');
-      return model[property];
-    });
-    content.innerHTML = contentStr;
+    let hbsTemplate = Handlebars.compile(template.innerHTML);
+    let html = hbsTemplate(model);
+
     this.rootNode.classList.add(this.objectId());
+    return html;
   }
 }
 

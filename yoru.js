@@ -6,12 +6,13 @@ require('babel-core/register');
 require('babel-polyfill');
 
 import YoruObject from './yoru-object';
-import { Logger, Scribe } from './komono/utils';
+import { Logger, Scribe, Run } from './komono/utils';
 import { ShadowMaker, TemplateConsumer } from './kage/shadow';
 
 class Yoru extends YoruObject {
   static Logger = Logger;
   static Scribe = Scribe;
+  static Run = Run;
 
   constructor() {
     super(...arguments);

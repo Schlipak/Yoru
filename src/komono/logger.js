@@ -1,7 +1,5 @@
 // 小物/logger.js
 
-import YoruObject from '../yoru-object';
-
 const checkForConsole = function checkForConsole(mode) {
   if (!window.console) {
     return false;
@@ -14,7 +12,7 @@ const checkForConsole = function checkForConsole(mode) {
 
 const loggingModes = ['log', 'debug', 'info', 'warn', 'error'];
 
-class Logger extends YoruObject {}
+let Logger = {};
 loggingModes.forEach(mode => {
   Logger[mode] = function() {
     if (!checkForConsole(mode)) {

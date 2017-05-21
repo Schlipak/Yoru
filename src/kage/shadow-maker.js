@@ -17,12 +17,11 @@ const __insertComponent = function __insertComponent(
   component
 ) {
   const shadow = element.createShadowRoot({ mode: 'open' });
-  const fragmentClone = document.importNode(template.content, true);
-  console.log(template.content, fragmentClone);
+  console.log(template, template.innerHTML);
   component.beforeAppend();
   component.beforeModel();
-  component.applyModel(element, shadow, fragmentClone);
-  shadow.appendChild(fragmentClone);
+  const html = component.applyModel(element, shadow, template);
+  shadow.innerHTML = html;
   component.afterModel();
   component.afterAppend();
 };
@@ -65,6 +64,10 @@ export default class ShadowMaker extends YoruObject {
       constructor(name, opts) {
         super(name, opts);
         this.name = name;
+
+        for (let optName in opts) {
+          this.set(optName, opts[optName]);
+        }
       }
     };
     this.components[name] = {

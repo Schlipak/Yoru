@@ -6,8 +6,8 @@
   </head>
   <body>
     <demo-title></demo-title>
-    <demo-title></demo-title>
     <my-component></my-component>
+    <image-list></image-list>
 
     <template id="yoru-demo-title">
       <h1>
@@ -31,6 +31,16 @@
       <img src="{{url}}" alt="Some image">
     </template>
 
+    <template id="yoru-image-list">
+      <ul>
+        {{#each images}}
+          <li>
+            <img src="{{url}}" alt="{{title}}">
+          </li>
+        {{/each}}
+      </ul>
+    </template>
+
     <script type="text/javascript" src="./yoru.pkg.js"></script>
     <script type="text/javascript">
       if (window.Yoru) {
@@ -47,10 +57,27 @@
         });
 
         app.registerComponent('MyComponent', {
+          title: 'Test of components',
+
           model() {
             return {
-              title: 'Test of components',
+              title: this.get('title'),
               url: 'https://unsplash.it/150/150',
+            };
+          },
+        });
+
+        app.registerComponent('ImageList', {
+          images: [
+            {title: 'Walrus', url: 'https://unsplash.it/200/200?image=1084'},
+            {title: 'Sling Ring', url: 'https://unsplash.it/200/200?image=1079'},
+            {title: 'Strawberry', url: 'https://unsplash.it/200/200?image=1080'},
+            {title: 'Kitten', url: 'https://unsplash.it/200/200?image=1074'},
+          ],
+
+          model() {
+            return {
+              images: this.get('images'),
             };
           },
         });

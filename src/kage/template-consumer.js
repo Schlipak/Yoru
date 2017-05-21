@@ -13,11 +13,9 @@ export default class TemplateConsumer extends YoruObject {
     this.templates = {};
 
     if (!('content' in document.createElement('template'))) {
-      /* eslint-disable quotes */
       Logger.error(
-        "Your browser does not support HTML templates, Yoru cannot cannot work without them :'("
+        'Your browser does not support HTML templates, Yoru cannot cannot work without them :('
       );
-      /* eslint-enable quotes */
       throw new Error('No support for <template>');
     }
   }
@@ -30,14 +28,20 @@ export default class TemplateConsumer extends YoruObject {
 
       if (!htmlTagName.match(/[\w\d]+(?:-[\w\d]+)+/)) {
         Logger.warn(
-          `Template '${htmlTagName}' does not contain any hyphen. To avoid collisions with any future HTML elements, please include at least an hyphen in your template/component name`
+          `Template '${htmlTagName}' does not contain hyphens. To avoid collisions with any future HTML elements, please include at least an hyphen in your template/component name`
         );
         Logger.warn(`Skipping template '${htmlTagName}'...`);
       } else {
-        Logger.debug(
-          `Registering template for component '${templateName}', will match <${htmlTagName}> elements`
-        );
-        this.templates[templateName] = template;
+        if (this.templates[templateName]) {
+          Logger.warn(
+            `Duplicate template, '${htmlTagName}' is already registered`
+          );
+        } else {
+          Logger.debug(
+            `Registering template for component '${templateName}', will match <${htmlTagName}> elements`
+          );
+          this.templates[templateName] = template;
+        }
       }
     });
   }
@@ -48,7 +52,7 @@ export default class TemplateConsumer extends YoruObject {
 
   each(callback) {
     if (!callback) {
-      return false;
+      return this.templates;
     }
     for (let key in this.templates) {
       callback(key, this.templates[key]);
