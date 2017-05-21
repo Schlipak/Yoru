@@ -17,7 +17,6 @@ const __insertComponent = function __insertComponent(
   component
 ) {
   const shadow = element.createShadowRoot({ mode: 'open' });
-  console.log(template, template.innerHTML);
   component.beforeAppend();
   component.beforeModel();
   const html = component.applyModel(element, shadow, template);

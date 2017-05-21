@@ -2,6 +2,8 @@
 // 夜/yoru_object.js
 //
 
+import Logger from './komono/utils';
+
 let __globalObjectCount__ = 0;
 
 export default class YoruObject {
@@ -22,7 +24,7 @@ export default class YoruObject {
   getName() {
     return this.constructor.name;
   }
-  
+
   toString() {
     return `<#${this.constructor.name} (instance)>`;
   }
@@ -51,12 +53,12 @@ export default class YoruObject {
       let nextStep = obj[path[depth]];
       if (nextStep !== Object(nextStep)) {
         if (createObjects) {
-          console.warn(
+          Logger.warn(
             `[YoruObject#set] Cannot dig through property \`${path[depth]}\` in path \`${prop}\`, forcing to object.`
           );
           obj[path[depth]] = new YoruObject();
         } else {
-          console.error(
+          Logger.error(
             `[YoruObject#set] Cannot dig deeper! Property \`${path[depth]}\` in path \`${prop}\` is not an object.`
           );
           return false;
