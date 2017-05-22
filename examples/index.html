@@ -2,6 +2,8 @@
 <html>
   <head>
     <meta charset="utf-8">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="icon" type="image/png" href="favicon.png">
     <title>夜</title>
   </head>
   <body>
@@ -12,48 +14,6 @@
     <link rel="import" href="templates.html">
 
     <script type="text/javascript" src="./yoru.pkg.min.js"></script>
-    <script type="text/javascript">
-      if (window.Yoru) {
-        const app = new Yoru();
-
-        app.registerComponent('DemoTitle', {
-          model() {
-            return {
-              appLogo: '夜',
-              appTitle: 'ＹＯＲＵ',
-              generatedAt: new Date(),
-            };
-          }
-        });
-
-        app.registerComponent('MyComponent', {
-          title: 'Test of components',
-
-          model() {
-            return {
-              title: this.get('title'),
-              url: 'https://unsplash.it/150/150',
-            };
-          },
-        });
-
-        app.registerComponent('ImageList', {
-          images: [
-            {title: 'Walrus', url: 'https://unsplash.it/200/200?image=1084'},
-            {title: 'Sling Ring', url: 'https://unsplash.it/200/200?image=1079'},
-            {title: 'Strawberry', url: 'https://unsplash.it/200/200?image=1080'},
-            {title: 'Kitten', url: 'https://unsplash.it/200/200?image=1074'},
-          ],
-
-          model() {
-            return {
-              images: this.get('images'),
-            };
-          },
-        });
-
-        app.boot();
-      }
-    </script>
+    <script type="text/javascript" src="./app.js"></script>
   </body>
 </html>

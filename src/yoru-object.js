@@ -39,6 +39,9 @@ export default class YoruObject {
 
     path.forEach(prop => {
       obj = (obj || {})[prop];
+      if (typeof obj === typeof (() => {})) {
+        obj = obj.call(this);
+      }
     });
 
     return obj;

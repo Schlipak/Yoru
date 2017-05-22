@@ -28,7 +28,20 @@ export default class TemplateConsumer extends YoruObject {
   }
 
   consume() {
-    const templates = document.querySelectorAll(`template[id^="${PREFIX}"]`);
+    const documents = [
+      [],
+      document,
+      ...Array.from(
+        document.querySelectorAll('link[rel="import"]')
+      ).map(link => {
+        return link.import;
+      }),
+    ];
+    const templates = documents.reduce((acc, doc) => {
+      return acc.concat(
+        ...Array.from(doc.querySelectorAll(`template[id^="${PREFIX}"]`))
+      );
+    });
     templates.forEach(template => {
       const templateName = Scribe.camelize(template.id.slice(PREFIX.length));
       const htmlTagName = Scribe.dasherize(templateName);
