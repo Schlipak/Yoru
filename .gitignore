@@ -58,6 +58,7 @@ typings/
 .env
 
 # Project specific
-examples/*.pkg.js
+examples/*.js
 dist/*
 !dist/.keep
+tmp/
