@@ -9,40 +9,10 @@
     <my-component></my-component>
     <image-list></image-list>
 
-    <template id="yoru-demo-title">
-      <h1>
-        <span>{{appLogo}}</span>
-        <span>{{appTitle}}</span>
-      </h1>
-      <h5>
-        Generated at {{generatedAt}}
-      </h5>
-    </template>
-
-    <template id="yoru-my-component">
-      <h1>{{title}}</h1>
-      <h2>{{title}}</h2>
-      <h3>{{title}}</h3>
-      <h4>{{title}}</h4>
-      <h5>{{title}}</h5>
-      <h6>{{title}}</h6>
-
-      <span>Static text with an image next to it &rarr;</span>
-      <img src="{{url}}" alt="Some image">
-    </template>
-
-    <template id="yoru-image-list">
-      <ul>
-        {{#each images}}
-          <li>
-            <img src="{{url}}" alt="{{title}}">
-          </li>
-        {{/each}}
-      </ul>
-    </template>
+    <link rel="import" href="templates.html">
 
     <script type="text/javascript" src="./yoru.pkg.js"></script>
-    <script type="text/javascript">
+    <script type="text/javascript" async>
       if (window.Yoru) {
         const app = new Yoru();
 

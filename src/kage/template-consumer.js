@@ -18,6 +18,13 @@ export default class TemplateConsumer extends YoruObject {
       );
       throw new Error('No support for <template>');
     }
+
+    if (!('import' in document.createElement('link'))) {
+      Logger.error(
+        'Your browser does not support HTML imports, Yoru cannot cannot work without them :('
+      );
+      throw new Error('No support for <link rel="import">');
+    }
   }
 
   consume() {
