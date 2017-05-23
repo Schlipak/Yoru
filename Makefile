@@ -15,12 +15,7 @@ eslint:
 
 tests: test
 
-babel:
-	@$(ECHO) "[\033[1;31mRM\033[0m] Clean dist/ tmp/"
-	@rm -rf dist/* tmp/*
-	@$(ECHO) "[\033[1;31mRM\033[0m] Clean compiled examples/"
-	@rm -rf examples/yoru.*
-	@mkdir -p tmp/
+babel: fclean
 	@$(ECHO) "[\033[1;34mTRANS\033[0m] Running Babel"
 	@$(EXEC_BABEL) $(NAME).js src/ --out-dir tmp/
 	@$(ECHO) "[\033[1;34mPACK\033[0m] Running Webpack"
