@@ -2,7 +2,7 @@
 
 const Run = {
   async: function() {
-    Run.later(...arguments, 0);
+    return Run.later(...arguments, 0);
   },
 
   later: function() {
@@ -11,12 +11,14 @@ const Run = {
     timeout = parseInt(timeout) || 0;
     callbacks = callbacks.reverse();
 
+    let runIds = [];
     callbacks.forEach(callback => {
       if (typeof callback !== typeof (() => {})) {
         throw new Error('Callback is not a function');
       }
-      setTimeout(callback, timeout);
+      runIds.push(setTimeout(callback, timeout));
     });
+    return runIds;
   },
 };
 
