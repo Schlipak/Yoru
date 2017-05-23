@@ -8,9 +8,9 @@ require('babel-polyfill');
 import YoruObject from './yoru-object';
 import { Logger, Scribe, Run } from './komono/utils';
 import { ShadowMaker, TemplateConsumer } from './kage/shadow';
+import { Preloader } from './kokoro/internals';
 
-const PRELOAD_CSS =
-  'body{transform:scale(1);transform-origin:top;opacity:1;transition:transform .6s,opacity .6s;}body.yoru-loading{transform:scale(1.05);opacity:0;transition:none;}';
+const YORU_INFO_STYLE = 'background: #000; color: #FFF; font-size: 1.5em; padding: .5em 1em; border-radius: 1.5em;';
 
 class Yoru extends YoruObject {
   static Logger = Logger;
@@ -19,26 +19,14 @@ class Yoru extends YoruObject {
 
   constructor() {
     super(...arguments);
+    Logger.raw('');
+    Logger.raw('%c夜 ー ＹＯＲＵ ー Version 0.1.0', YORU_INFO_STYLE);
+    Logger.raw('');
+
     this.templateConsumer = new TemplateConsumer(this);
     this.shadowMaker = new ShadowMaker(this.templateConsumer);
-
-    this._initPreload();
-  }
-
-  _initPreload() {
-    this.preloadStyle = document.createElement('style');
-    this.preloadStyle.innerHTML = PRELOAD_CSS;
-    document.head.appendChild(this.preloadStyle);
-  }
-
-  _destroyPreload() {
-    Run.async(() => {
-      document.body.classList.remove('yoru-loading');
-      Run.later(() => {
-        this.preloadStyle.parentNode.removeChild(this.preloadStyle);
-        this.preloadStyle = null;
-      }, 650);
-    });
+    this.preloader = new Preloader();
+    this.preloader.init();
   }
 
   boot() {
@@ -47,7 +35,7 @@ class Yoru extends YoruObject {
     document.body.classList.add('yoru-loading');
     this.templateConsumer.consume();
     this.shadowMaker.init();
-    this._destroyPreload();
+    this.preloader.tearDown();
   }
 
   registerComponent(name, opts = {}) {

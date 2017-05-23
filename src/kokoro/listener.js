@@ -1,4 +1,4 @@
-// kokoro/listener.js
+// 心/listener.js
 
 import YoruObject from '../yoru-object';
 

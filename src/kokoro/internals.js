@@ -1,5 +1,6 @@
-// kokoro/internals.js
+// 心/internals.js
 
 import Listener from './listener';
+import Preloader from './preloader';
 
-export { Listener };
+export { Listener, Preloader };

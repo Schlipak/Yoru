@@ -29,11 +29,11 @@ const __supportsGEBTN = function __supportsGEBTN(rootNode) {
   return 'getElementsByTagName' in rootNode;
 };
 
-const __getElementsFromChildren = function __getElementsFromChildren(rootNode, htmlTagName) {
-  return Array.from([
-    [],
-    ...rootNode.children,
-  ]).reduce((acc = [], child) => {
+const __getElementsFromChildren = function __getElementsFromChildren(
+  rootNode,
+  htmlTagName
+) {
+  return Array.from([[], ...rootNode.children]).reduce((acc = [], child) => {
     return acc.concat(...Array.from(child.getElementsByTagName(htmlTagName)));
   });
 };
@@ -51,7 +51,9 @@ export default class ShadowMaker extends YoruObject {
   }
 
   parseDOM(rootNode = document.body) {
-    Logger.debug(`Now parsing children of ${rootNode.tagName}`);
+    Logger.debug(
+      `Now parsing children of ${rootNode.tagName || rootNode.host.tagName}`
+    );
     this.consumer.each((name, template) => {
       const htmlTagName = Scribe.dasherize(name);
       let elements = [];

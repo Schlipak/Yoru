@@ -12,7 +12,15 @@ const checkForConsole = function checkForConsole(mode) {
 
 const loggingModes = ['log', 'debug', 'info', 'warn', 'error'];
 
-let Logger = {};
+let Logger = {
+  raw: function() {
+    if (!checkForConsole('log')) {
+      return false;
+    }
+    window.console.log(...arguments);
+  }
+};
+
 loggingModes.forEach(mode => {
   Logger[mode] = function() {
     if (!checkForConsole(mode)) {
