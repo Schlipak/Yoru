@@ -49,5 +49,15 @@ class Yoru extends YoruObject {
 //   };
 // })();
 
+!(function(Yoru) {
+  if (typeof window === typeof void 0 || typeof document === typeof void 0) {
+    console.error(
+      'Yoru cannot run in a headless JavaScript engine (missing `window` and/or `document`)'
+    );
+    throw new Error('Engine is headless');
+  }
+  window.Yoru = Yoru;
+  return Yoru;
+})(Yoru);
+
 export default Yoru;
-window.Yoru = Yoru;
