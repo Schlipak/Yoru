@@ -58,7 +58,9 @@ typings/
 .env
 
 # Project specific
-examples/*.js
+examples/yoru*.js
 dist/*
 !dist/.keep
 tmp/
+*~
+\#*\#
