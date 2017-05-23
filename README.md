@@ -12,4 +12,4 @@ None, yet
 
 ## Whatever
 
-Just run make and serve the `examples/` directory. It does not even work right now ¯\\\_(ツ)\_/¯
+Just run make, serve the `examples/` directory, and open it in your favourite MODERN browser.
