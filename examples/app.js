@@ -2,12 +2,24 @@ const initApp = function initApp() {
   if (window.Yoru) {
     const app = new Yoru();
 
-    app.registerComponent('DemoTitle', {
+    app.registerComponent('DemoHeading', {
+      classes: ['heading'],
+
       model() {
         return {
           appLogo: '夜',
           appTitle: 'ＹＯＲＵ',
           generatedAt: new Date(),
+        };
+      },
+    });
+
+    app.registerComponent('AppIcon', {
+      color: '#FFF',
+
+      model() {
+        return {
+          color: this.get('color'),
         };
       },
     });

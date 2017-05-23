@@ -2,16 +2,30 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <link rel="icon" type="image/x-icon" href="favicon.ico">
-    <link rel="icon" type="image/png" href="favicon.png">
-    <title>夜</title>
+    <link rel="icon" type="image/x-icon" href="img/favicon.ico">
+    <link rel="icon" type="image/png" href="img/favicon.png">
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700|Merriweather:400,700&amp;subset=latin-ext" rel="stylesheet">
+    <title>夜 ー ＹＯＲＵ</title>
+
+    <style media="screen">
+      html, body {
+        position: relative;
+        width: 100%;
+        min-height: 100%;
+        padding: 0;
+        margin: 0;
+        overflow-x: hidden;
+
+        font-family: 'Lato', sans-serif;
+      }
+    </style>
   </head>
   <body>
-    <demo-title></demo-title>
+    <demo-heading></demo-heading>
     <my-component></my-component>
     <image-list></image-list>
 
-    <link rel="import" href="templates.html">
+    <link rel="import" href="templates/_all.html">
 
     <script type="text/javascript" src="./yoru.pkg.min.js"></script>
     <script type="text/javascript" src="./app.js"></script>

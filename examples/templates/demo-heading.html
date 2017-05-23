@@ -1,0 +1,42 @@
+<template id="yoru-demo-heading">
+  <style media="screen">
+    :host {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      padding: 2em 4em;
+
+      background-color: black;
+      color: white;
+    }
+
+    a {
+      display: inline-flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+
+      font-family: 'Merriweather', serif;
+      font-size: 2em;
+      color: white;
+      text-decoration: none;
+      outline: none;
+    }
+
+    a app-icon {
+      margin-right: 1em;
+    }
+
+    h5 {
+      font-family: 'Lato', sans-serif;
+    }
+  </style>
+  <a href=".">
+    <app-icon></app-icon>
+    <span>{{appLogo}} ー {{appTitle}}</span>
+  </a>
+  <h5>
+    Generated at {{generatedAt}}
+  </h5>
+</template>
