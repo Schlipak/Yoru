@@ -27,21 +27,15 @@ export default class TemplateConsumer extends YoruObject {
     }
   }
 
-  consume() {
-    const documents = [
-      [],
-      document,
-      ...Array.from(
-        document.querySelectorAll('link[rel="import"]')
-      ).map(link => {
-        return link.import;
-      }),
-    ];
-    const templates = documents.reduce((acc, doc) => {
-      return acc.concat(
-        ...Array.from(doc.querySelectorAll(`template[id^="${PREFIX}"]`))
-      );
+  consume(documentRoot = document) {
+    const childrenDocuments = Array.from(
+      documentRoot.querySelectorAll('link[rel="import"]')
+    ).map(link => {
+      return link.import;
     });
+    const templates = Array.from(
+      documentRoot.querySelectorAll(`template[id^="${PREFIX}"]`)
+    );
     templates.forEach(template => {
       const templateName = Scribe.camelize(template.id.slice(PREFIX.length));
       const htmlTagName = Scribe.dasherize(templateName);
@@ -63,6 +57,9 @@ export default class TemplateConsumer extends YoruObject {
           this.templates[templateName] = template;
         }
       }
+    });
+    childrenDocuments.forEach(doc => {
+      this.consume(doc);
     });
   }
 

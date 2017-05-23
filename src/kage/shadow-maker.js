@@ -25,6 +25,19 @@ const __insertComponent = function __insertComponent(
   component.afterAppend();
 };
 
+const __supportsGEBTN = function __supportsGEBTN(rootNode) {
+  return 'getElementsByTagName' in rootNode;
+};
+
+const __getElementsFromChildren = function __getElementsFromChildren(rootNode, htmlTagName) {
+  return Array.from([
+    [],
+    ...rootNode.children,
+  ]).reduce((acc = [], child) => {
+    return acc.concat(...Array.from(child.getElementsByTagName(htmlTagName)));
+  });
+};
+
 export default class ShadowMaker extends YoruObject {
   constructor(consumer) {
     super(...arguments);
@@ -34,9 +47,19 @@ export default class ShadowMaker extends YoruObject {
   }
 
   init() {
+    this.parseDOM();
+  }
+
+  parseDOM(rootNode = document.body) {
+    Logger.debug(`Now parsing children of ${rootNode.tagName}`);
     this.consumer.each((name, template) => {
       const htmlTagName = Scribe.dasherize(name);
-      const elements = document.getElementsByTagName(htmlTagName);
+      let elements = [];
+      if (__supportsGEBTN(rootNode)) {
+        elements = Array.from(rootNode.getElementsByTagName(htmlTagName));
+      } else {
+        elements = __getElementsFromChildren(rootNode, htmlTagName);
+      }
       Array.from(elements).forEach(element => {
         const componentData = this.components[name];
         if (!componentData) {
@@ -50,7 +73,8 @@ export default class ShadowMaker extends YoruObject {
             componentData.options
           );
           Logger.info(`Rendering component ${instance.objectId()}`);
-          return __insertComponent(element, template, instance);
+          __insertComponent(element, template, instance);
+          return this.parseDOM(element.shadowRoot);
         }
       });
     });

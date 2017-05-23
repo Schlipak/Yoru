@@ -10,6 +10,8 @@ export default class Component extends YoruObject {
     super(...arguments);
     this.name = name;
     this.opts = opts;
+
+    this.classes = [];
   }
 
   model() {
@@ -29,6 +31,9 @@ export default class Component extends YoruObject {
     let html = hbsTemplate(model);
 
     this.rootNode.classList.add(this.objectId());
+    this.get('classes').forEach(kl => {
+      this.rootNode.classList.add(kl);
+    });
     return html;
   }
 }
