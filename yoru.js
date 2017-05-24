@@ -5,6 +5,12 @@
 require('babel-core/register');
 require('babel-polyfill');
 
+import FireAllPatches from 'yoru/tsuika';
+
+!(function() {
+  FireAllPatches();
+})();
+
 import YoruObject from 'yoru/object';
 import { Logger, Scribe, Run } from 'yoru/komono';
 import { ShadowMaker, TemplateConsumer } from 'yoru/kage';
@@ -24,7 +30,7 @@ class Yoru extends YoruObject {
   constructor() {
     super(...arguments);
     Logger.raw('');
-    Logger.raw('%c夜 ー ＹＯＲＵ ー Version 0.1.0', YORU_INFO_STYLE);
+    Logger.style('夜 ー ＹＯＲＵ ー Version 0.1.0', YORU_INFO_STYLE);
     Logger.raw('');
 
     this.templateConsumer = new TemplateConsumer(this);
