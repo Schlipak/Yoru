@@ -30,7 +30,9 @@ class Yoru extends YoruObject {
   constructor() {
     super(...arguments);
     Logger.raw('');
-    Logger.style('夜 ー ＹＯＲＵ ー Version 0.1.0', YORU_INFO_STYLE);
+    /* eslint-disable no-undef */
+    Logger.style(`夜 ー ＹＯＲＵ ー Version ${VERSION}`, YORU_INFO_STYLE);
+    /* eslint-enable no-undef */
     Logger.raw('');
 
     this.templateConsumer = new TemplateConsumer(this);
