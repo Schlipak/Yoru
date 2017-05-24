@@ -1,4 +1,6 @@
-// 小物/logger.js
+//
+// 夜/小物/logger.js
+//
 
 const checkForConsole = function checkForConsole(mode) {
   if (!window.console) {

@@ -1,9 +1,9 @@
 //
-// 夜/影/shadow-maker.js
+// 夜/影/template-consumer.js
 //
 
-import YoruObject from '../yoru-object';
-import { Logger, Scribe } from '../komono/utils';
+import YoruObject from 'yoru/object';
+import { Logger, Scribe } from 'yoru/komono';
 
 const PREFIX = 'yoru-';
 

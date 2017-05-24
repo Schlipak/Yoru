@@ -1,7 +1,9 @@
-// 心/preloader.js
+//
+// 夜/心/preloader.js
+//
 
-import YoruObject from '../yoru-object';
-import { Logger, Run } from '../komono/utils';
+import YoruObject from 'yoru/object';
+import { Logger, Run } from 'yoru/komono';
 
 const PRELOAD_CSS = `body {
   transform: scale(1);

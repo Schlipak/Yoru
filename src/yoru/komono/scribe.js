@@ -1,4 +1,6 @@
-// 小物/scribe.js
+//
+// 夜/小物/scribe.js
+//
 
 const Scribe = {
   upper: function(str = '') {

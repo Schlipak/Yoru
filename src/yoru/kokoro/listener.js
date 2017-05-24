@@ -1,6 +1,8 @@
-// 心/listener.js
+//
+// 夜/心/listener.js
+//
 
-import YoruObject from '../yoru-object';
+import YoruObject from 'yoru/object';
 
 export default class Listener extends YoruObject {
 

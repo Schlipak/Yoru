@@ -1,4 +1,6 @@
-// 小物/run.js
+//
+// 夜/小物/run.js
+//
 
 const Run = {
   async: function() {

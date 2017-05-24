@@ -5,10 +5,10 @@
 require('babel-core/register');
 require('babel-polyfill');
 
-import YoruObject from './yoru-object';
-import { Logger, Scribe, Run } from './komono/utils';
-import { ShadowMaker, TemplateConsumer } from './kage/shadow';
-import { Preloader } from './kokoro/internals';
+import YoruObject from 'yoru/object';
+import { Logger, Scribe, Run } from 'yoru/komono';
+import { ShadowMaker, TemplateConsumer } from 'yoru/kage';
+import { Preloader } from 'yoru/kokoro';
 
 const YORU_INFO_STYLE = `background: #000;
   color: #FFF;

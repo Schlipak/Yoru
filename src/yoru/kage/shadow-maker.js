@@ -2,9 +2,9 @@
 // 夜/影/shadow-maker.js
 //
 
-import YoruObject from '../yoru-object';
-import Component from './component';
-import { Scribe, Logger } from '../komono/utils';
+import YoruObject from 'yoru/object';
+import Component from 'yoru/kage/component';
+import { Scribe, Logger } from 'yoru/komono';
 
 const __insertPartial = function __insertPartial(element, template) {
   const shadow = element.createShadowRoot({ mode: 'open' });

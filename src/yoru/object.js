@@ -2,7 +2,7 @@
 // 夜/yoru_object.js
 //
 
-import Logger from './komono/utils';
+import { Logger } from 'yoru/komono';
 
 let __globalObjectCount__ = 0;
 
