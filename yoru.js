@@ -10,7 +10,11 @@ import { Logger, Scribe, Run } from './komono/utils';
 import { ShadowMaker, TemplateConsumer } from './kage/shadow';
 import { Preloader } from './kokoro/internals';
 
-const YORU_INFO_STYLE = 'background: #000; color: #FFF; font-size: 1.5em; padding: .5em 1em; border-radius: 1.5em;';
+const YORU_INFO_STYLE = `background: #000;
+  color: #FFF;
+  font-size: 1.5em;
+  padding: .5em 1em;
+  border-radius: 1.5em;`;
 
 class Yoru extends YoruObject {
   static Logger = Logger;
@@ -42,23 +46,6 @@ class Yoru extends YoruObject {
     this.shadowMaker.registerComponent(name, opts);
   }
 }
-
-// (function() {
-//   Logger.debug('Registering prototype extensions');
-//   Function.prototype.listen = function() {
-//     Array.from(arguments).forEach(source => {
-//       ((src) => {
-//         // ${this.get('objectId')}
-//         console.log(this);
-//         console.log(this.get);
-//         window.addEventListener(`yoru.internal.${src}`, () => {
-//           console.log(src);
-//         });
-//       })(source);
-//     });
-//     return this;
-//   };
-// })();
 
 !(function(Yoru) {
   if (typeof window === typeof void 0 || typeof document === typeof void 0) {
