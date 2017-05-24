@@ -22,12 +22,12 @@ export default class Component extends YoruObject {
     return `Component-${this.name}`;
   }
 
-  applyModel(rootNode, shadow, template) {
+  async applyModel(rootNode, shadow, template) {
     this.rootNode = rootNode;
     this.shadow = shadow;
 
     const model = this.opts.model.call(this);
-    let hbsTemplate = Handlebars.compile(template.innerHTML);
+    let hbsTemplate = await Handlebars.compile(template.innerHTML);
     let html = hbsTemplate(model);
 
     this.rootNode.classList.add(this.objectId());

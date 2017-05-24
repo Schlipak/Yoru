@@ -3,6 +3,7 @@
 const path = require('path');
 
 module.exports = {
+  entry: ['babel-polyfill', './tmp/yoru.js'],
   resolve: {
     alias: {
       handlebars: 'handlebars/dist/handlebars.js',

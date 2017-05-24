@@ -11,7 +11,7 @@ const __insertPartial = function __insertPartial(element, template) {
   shadow.appendChild(template.content);
 };
 
-const __insertComponent = function __insertComponent(
+const __insertComponent = async function __insertComponent(
   element,
   template,
   component
@@ -19,7 +19,7 @@ const __insertComponent = function __insertComponent(
   const shadow = element.createShadowRoot({ mode: 'open' });
   component.beforeAppend();
   component.beforeModel();
-  const html = component.applyModel(element, shadow, template);
+  const html = await component.applyModel(element, shadow, template);
   shadow.innerHTML = html;
   component.afterModel();
   component.afterAppend();
@@ -46,15 +46,16 @@ export default class ShadowMaker extends YoruObject {
     this.componentInstances = {};
   }
 
-  init() {
-    this.parseDOM();
+  async init() {
+    await this.parseDOM();
   }
 
-  parseDOM(rootNode = document.body) {
+  async parseDOM(rootNode = document.body) {
     Logger.debug(
       `Now parsing children of ${rootNode.tagName || rootNode.host.tagName}`
     );
-    this.consumer.each((name, template) => {
+
+    await Promise.all(this.consumer.each().map(async ([name, template]) => {
       const htmlTagName = Scribe.dasherize(name);
       let elements = [];
       if (__supportsGEBTN(rootNode)) {
@@ -62,7 +63,7 @@ export default class ShadowMaker extends YoruObject {
       } else {
         elements = __getElementsFromChildren(rootNode, htmlTagName);
       }
-      Array.from(elements).forEach(element => {
+      await Promise.all(Array.from(elements).map(async element => {
         const componentData = this.components[name];
         if (!componentData) {
           Logger.info(
@@ -75,11 +76,11 @@ export default class ShadowMaker extends YoruObject {
             componentData.options
           );
           Logger.info(`Rendering component ${instance.objectId()}`);
-          __insertComponent(element, template, instance);
-          return this.parseDOM(element.shadowRoot);
+          await __insertComponent(element, template, instance);
+          return await this.parseDOM(element.shadowRoot);
         }
-      });
-    });
+      }));
+    }));
   }
 
   registerComponent(name, opts = {}) {

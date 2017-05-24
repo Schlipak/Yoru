@@ -69,7 +69,9 @@ export default class TemplateConsumer extends YoruObject {
 
   each(callback) {
     if (!callback) {
-      return this.templates;
+      return Object.keys(this.templates).map(key => {
+        return [key, this.templates[key]];
+      });
     }
     for (let key in this.templates) {
       callback(key, this.templates[key]);
