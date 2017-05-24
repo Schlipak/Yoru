@@ -66,7 +66,7 @@ export default class ShadowMaker extends YoruObject {
       await Promise.all(Array.from(elements).map(async element => {
         const componentData = this.components[name];
         if (!componentData) {
-          Logger.info(
+          Logger.debug(
             `No component named ${name} found. Defaulting behavior to partial.`
           );
           return __insertPartial(element, template);
@@ -75,7 +75,7 @@ export default class ShadowMaker extends YoruObject {
             componentData.name,
             componentData.options
           );
-          Logger.info(`Rendering component ${instance.objectId()}`);
+          Logger.debug(`Rendering component ${instance.objectId()}`);
           await __insertComponent(element, template, instance);
           return await this.parseDOM(element.shadowRoot);
         }

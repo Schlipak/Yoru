@@ -44,7 +44,6 @@ class Yoru extends YoruObject {
   async boot() {
     Logger.info('Booting Yoru');
 
-    document.body.classList.add('yoru-loading');
     this.templateConsumer.consume();
     await this.shadowMaker.init();
     this.preloader.tearDown();

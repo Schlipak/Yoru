@@ -17,6 +17,8 @@ body.yoru-loading {
   transition: none;
 }`;
 
+const PRELOAD_CLASS = 'yoru-loading';
+
 export default class Preloader extends YoruObject {
   constructor() {
     super(...arguments);
@@ -25,9 +27,10 @@ export default class Preloader extends YoruObject {
   }
 
   init() {
-    Logger.debug('Starting preloader...');
+    Logger.info('Starting preloader...');
     this.startTime = new Date();
     document.head.appendChild(this.preloadStyle);
+    document.body.classList.add(PRELOAD_CLASS);
   }
 
   tearDown() {
@@ -36,8 +39,8 @@ export default class Preloader extends YoruObject {
     const unit = dt > 1000 ? 's' : 'ms';
     dt = dt > 1000 ? dt / 1000 : dt;
     Run.async(() => {
-      Logger.debug(`Done in ${dt}${unit}! Tearing down preloader`);
-      document.body.classList.remove('yoru-loading');
+      Logger.info(`Done in ${dt}${unit}! Tearing down preloader`);
+      document.body.classList.remove(PRELOAD_CLASS);
       Run.later(() => {
         this.preloadStyle.parentNode.removeChild(this.preloadStyle);
         this.preloadStyle = null;
