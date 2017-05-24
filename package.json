@@ -1,6 +1,6 @@
 {
   "name": "yoru",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A lightweight JavaScript framework based on Shadow DOM",
   "main": "yoru.js",
   "directories": {
