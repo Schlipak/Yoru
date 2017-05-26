@@ -2,6 +2,8 @@
 // 夜/小物/logger.js
 //
 
+import { YoruArray } from 'yoru/tsuika';
+
 const checkForConsole = function checkForConsole(mode) {
   if (!window.console) {
     return false;
@@ -42,7 +44,7 @@ let Logger = {
   },
 
   style: function() {
-    const args = Array.from(arguments);
+    const args = YoruArray.from(arguments);
     if (!checkCanDisplayStyles()) {
       args.forEachPair(message => {
         Logger.raw(message);

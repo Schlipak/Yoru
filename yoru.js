@@ -5,12 +5,7 @@
 require('babel-core/register');
 require('babel-polyfill');
 
-import FireAllPatches from 'yoru/tsuika';
-
-!(function() {
-  FireAllPatches();
-})();
-
+import { YoruArray } from 'yoru/tsuika';
 import YoruObject from 'yoru/object';
 import { Logger, Scribe, Run } from 'yoru/komono';
 import { ShadowMaker, TemplateConsumer } from 'yoru/kage';
@@ -26,6 +21,8 @@ class Yoru extends YoruObject {
   static Logger = Logger;
   static Scribe = Scribe;
   static Run = Run;
+
+  static Array = YoruArray;
 
   constructor() {
     super(...arguments);

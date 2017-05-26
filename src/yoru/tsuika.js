@@ -1,4 +1,4 @@
 // Import helper for module Tsuika
 
-import FireAllPatches from 'yoru/tsuika/_all';
-export default FireAllPatches;
+import { YoruArray } from 'yoru/tsuika/_all';
+export { YoruArray };
