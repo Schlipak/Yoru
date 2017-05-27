@@ -97,6 +97,7 @@ export default class ShadowMaker extends YoruObject {
               );
               Logger.debug(`Rendering component ${instance.objectId()}`);
               await __insertComponent(element, template, instance);
+              this.consumer.app.documents.push(element.shadowRoot);
               return await this.parseDOM(element.shadowRoot);
             }
           })

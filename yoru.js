@@ -37,6 +37,7 @@ class Yoru extends YoruObject {
     Logger.style(`夜 ー ＹＯＲＵ ー Version ${Yoru.VERSION}`, YORU_INFO_STYLE);
     Logger.raw('');
 
+    this.documents = Yoru.A(document);
     this.templateConsumer = new TemplateConsumer(this);
     this.shadowMaker = new ShadowMaker(this.templateConsumer);
     this.preloader = new Preloader();
@@ -49,6 +50,14 @@ class Yoru extends YoruObject {
     this.templateConsumer.consume();
     await this.shadowMaker.init();
     this.preloader.tearDown();
+  }
+
+  find(selector) {
+    let results = Yoru.A();
+    this.get('documents').forEach(doc => {
+      results.push(...doc.querySelectorAll(selector));
+    });
+    return results;
   }
 
   registerComponent(name, opts = {}) {

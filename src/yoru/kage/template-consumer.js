@@ -8,8 +8,9 @@ import { Logger, Scribe } from 'yoru/komono';
 const PREFIX = 'yoru-';
 
 export default class TemplateConsumer extends YoruObject {
-  constructor() {
+  constructor(app) {
     super(...arguments);
+    this.app = app;
     this.templates = {};
 
     if (!('content' in document.createElement('template'))) {
