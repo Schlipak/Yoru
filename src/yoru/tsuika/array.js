@@ -16,6 +16,10 @@ export default class YoruArray extends Array {
     return this;
   }
 
+  sample() {
+    return this[Math.floor(Math.random() * this.length)];
+  }
+
   toNative() {
     return this.__superclass__.from(this);
   }

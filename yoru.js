@@ -23,13 +23,18 @@ class Yoru extends YoruObject {
   static Run = Run;
 
   static Array = YoruArray;
+  static A() {
+    return new YoruArray(...arguments);
+  }
+
+  /* eslint-disable no-undef */
+  static VERSION = VERSION;
+  /* eslint-enable no-undef */
 
   constructor() {
     super(...arguments);
     Logger.raw('');
-    /* eslint-disable no-undef */
-    Logger.style(`夜 ー ＹＯＲＵ ー Version ${VERSION}`, YORU_INFO_STYLE);
-    /* eslint-enable no-undef */
+    Logger.style(`夜 ー ＹＯＲＵ ー Version ${Yoru.VERSION}`, YORU_INFO_STYLE);
     Logger.raw('');
 
     this.templateConsumer = new TemplateConsumer(this);
