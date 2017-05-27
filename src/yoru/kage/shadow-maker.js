@@ -5,6 +5,7 @@
 import YoruObject from 'yoru/object';
 import Component from 'yoru/kage/component';
 import { Scribe, Logger } from 'yoru/komono';
+const Handlebars = require('handlebars');
 
 const __insertPartial = function __insertPartial(element, template) {
   const shadow = element.createShadowRoot({ mode: 'open' });
@@ -44,6 +45,23 @@ export default class ShadowMaker extends YoruObject {
     this.consumer = consumer;
     this.components = {};
     this.componentInstances = {};
+
+    Handlebars.registerHelper('yield', function(options) {
+      if (options.fn) {
+        Logger.error(
+          'Yield cannot be used in block form, please use {{yield}}'
+        );
+        throw new Error('Yield used in block form');
+      }
+
+      const data = Object.assign(options.data.root, options.hash);
+      const component = data.__component__;
+      const yieldedContent = component.rootNode.innerHTML;
+
+      let hbsTemplate = Handlebars.compile(yieldedContent);
+      let html = hbsTemplate(data);
+      return new Handlebars.SafeString(html);
+    });
   }
 
   async init() {
@@ -55,32 +73,36 @@ export default class ShadowMaker extends YoruObject {
       `Now parsing children of ${rootNode.tagName || rootNode.host.tagName}`
     );
 
-    await Promise.all(this.consumer.each().map(async ([name, template]) => {
-      const htmlTagName = Scribe.dasherize(name);
-      let elements = [];
-      if (__supportsGEBTN(rootNode)) {
-        elements = Array.from(rootNode.getElementsByTagName(htmlTagName));
-      } else {
-        elements = __getElementsFromChildren(rootNode, htmlTagName);
-      }
-      await Promise.all(Array.from(elements).map(async element => {
-        const componentData = this.components[name];
-        if (!componentData) {
-          Logger.debug(
-            `No component named ${name} found. Defaulting behavior to partial.`
-          );
-          return __insertPartial(element, template);
+    await Promise.all(
+      this.consumer.each().map(async ([name, template]) => {
+        const htmlTagName = Scribe.dasherize(name);
+        let elements = [];
+        if (__supportsGEBTN(rootNode)) {
+          elements = Array.from(rootNode.getElementsByTagName(htmlTagName));
         } else {
-          let instance = new componentData.constructor(
-            componentData.name,
-            componentData.options
-          );
-          Logger.debug(`Rendering component ${instance.objectId()}`);
-          await __insertComponent(element, template, instance);
-          return await this.parseDOM(element.shadowRoot);
+          elements = __getElementsFromChildren(rootNode, htmlTagName);
         }
-      }));
-    }));
+        await Promise.all(
+          Array.from(elements).map(async element => {
+            const componentData = this.components[name];
+            if (!componentData) {
+              Logger.debug(
+                `No component named ${name} found. Defaulting behavior to partial.`
+              );
+              return __insertPartial(element, template);
+            } else {
+              let instance = new componentData.constructor(
+                componentData.name,
+                componentData.options
+              );
+              Logger.debug(`Rendering component ${instance.objectId()}`);
+              await __insertComponent(element, template, instance);
+              return await this.parseDOM(element.shadowRoot);
+            }
+          })
+        );
+      })
+    );
   }
 
   registerComponent(name, opts = {}) {
