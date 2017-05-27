@@ -1,14 +1,30 @@
 <template id="yoru-demo-heading">
   <style media="screen">
     :host {
+      position: absolute;
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      box-sizing: border-box;
+
+      background-color: black;
+      color: white;
+      z-index: 900;
+    }
+
+    .heading-container {
       display: flex;
       flex-direction: row;
       justify-content: space-between;
       align-items: center;
-      padding: 2em 4em;
-
-      background-color: black;
-      color: white;
+      width: 100%;
+      max-width: 1000px;
+      height: 100%;
+      padding: 2em;
     }
 
     a {
@@ -32,11 +48,13 @@
       font-family: 'Lato', sans-serif;
     }
   </style>
-  <a href=".">
-    <app-icon></app-icon>
-    <span>{{appLogo}} ー {{appTitle}}</span>
-  </a>
-  <h5>
-    Generated at {{generatedAt}}
-  </h5>
+  <div class="heading-container">
+    <a href=".">
+      <app-icon></app-icon>
+      <span>{{appLogo}} ー {{appTitle}}</span>
+    </a>
+    <h3>
+      Version {{versionNumber}}
+    </h3>
+  </div>
 </template>

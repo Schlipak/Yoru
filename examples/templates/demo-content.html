@@ -1,0 +1,56 @@
+<template id="yoru-demo-content">
+  <style media="screen">
+    :host {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: flex-start;
+      position: relative;
+      width: 100%;
+      padding: 0;
+      margin: 0;
+    }
+
+    main {
+      display: block;
+      position: relative;
+      width: 100%;
+      max-width: 1000px;
+      min-height: calc(100vh - 8em);
+      margin-top: 8em;
+      padding: 1em 1.5em;
+
+      background-color: white;
+      box-shadow: 0 0 2em rgba(0, 0, 0, .25);
+    }
+  </style>
+  <main>
+    <h2>Usage</h2>
+    <ul>
+      <li>Include <code>yoru.pkg.min.js</code> in your page</li>
+    </ul>
+    <code-block y:data:title="app.js">const initApp = function initApp() {
+  if (window.Yoru) {
+    const app = new Yoru();
+
+    app.registerComponent('MyComponent', {
+      // Define properties and methods here
+
+      // Components MUST define a model() method
+      model() {
+        return {
+          title: 'MyApp',
+          content: 'This is my new Yoru app!',
+        };
+      }
+    });
+
+    app.boot().then(() => {
+      // After boot
+    });
+  }
+};
+
+document.addEventListener('DOMContentLoaded', initApp);</code-block>
+  </main>
+</template>

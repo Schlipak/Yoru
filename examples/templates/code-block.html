@@ -1,0 +1,35 @@
+<template id="yoru-code-block">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.11.0/styles/github.min.css">
+  <style media="screen">
+    pre code {
+      border-radius: .5em;
+    }
+
+    pre code:first-child {
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+
+      text-align: right;
+      border-right: 1px solid rgba(0, 0, 0, .1);
+      -webkit-touch-callout: none;
+    	-webkit-user-select: none;
+    	-moz-user-select: none;
+    	-ms-user-select: none;
+    	user-select: none;
+      cursor: default;
+      opacity: .75;
+    }
+
+    pre code:last-child {
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+      padding-left: 1.5em;
+    }
+  </style>
+  <div class="code-block">
+    {{#if title}}
+      <div class="title">{{title}}</div>
+    {{/if}}
+    <pre><code class="js">{{yield}}</code></pre>
+  </div>
+</template>

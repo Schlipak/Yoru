@@ -17,19 +17,19 @@
         overflow-x: hidden;
 
         font-family: 'Lato', sans-serif;
+        background-color: rgba(0, 0, 0, .05);
       }
     </style>
   </head>
   <body>
     <demo-heading></demo-heading>
-    <my-component>
-      <strong>This is a yield test with data from model "{{title}}" and from yield "{{something}}"</strong>
-    </my-component>
-    <image-list></image-list>
+    <demo-content></demo-content>
 
     <link rel="import" href="templates/_all.html">
 
     <script type="text/javascript" src="./yoru.pkg.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.11.0/highlight.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlightjs-line-numbers.js/1.1.0/highlightjs-line-numbers.min.js"></script>
     <script type="text/javascript" src="./app.js"></script>
   </body>
 </html>

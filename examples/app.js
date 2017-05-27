@@ -9,52 +9,44 @@ const initApp = function initApp() {
         return {
           appLogo: '夜',
           appTitle: 'ＹＯＲＵ',
-          generatedAt: new Date(),
+          versionNumber: Yoru.VERSION,
         };
       },
     });
 
     app.registerComponent('AppIcon', {
       color: '#FFF',
+      strokeColor: '#000',
 
       model() {
         return {
           color: this.get('color'),
+          strokeColor: this.get('strokeColor'),
         };
       },
     });
 
-    app.registerComponent('MyComponent', {
-      title: 'Test of components',
-
-      test: function() {
-        return this.get('title');
-      },
-
+    app.registerComponent('DemoContent', {
       model() {
-        return {
-          title: this.get('test'),
-          url: 'https://unsplash.it/150/150',
-        };
+        return {};
       },
     });
 
-    app.registerComponent('ImageList', {
-      images: [
-        { title: 'Walrus', url: 'https://unsplash.it/200/200?image=1084' },
-        { title: 'Sling Ring', url: 'https://unsplash.it/200/200?image=1079' },
-        { title: 'Strawberry', url: 'https://unsplash.it/200/200?image=1080' },
-        { title: 'Kitten', url: 'https://unsplash.it/200/200?image=1074' },
-      ],
-
+    app.registerComponent('CodeBlock', {
       model() {
-        return {
-          images: this.get('images'),
-        };
+        return {};
       },
     });
 
-    app.boot();
+    app.boot().then(() => {
+      if (window.hljs) {
+        const codeBlocks = app.find('pre code');
+        codeBlocks.forEach(block => {
+          hljs.highlightBlock(block);
+          hljs.lineNumbersBlock(block);
+        });
+      }
+    });
   }
 };
 

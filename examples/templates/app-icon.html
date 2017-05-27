@@ -10,8 +10,49 @@
       width: 2em;
       height: 2em;
     }
+
+    svg #innerCircle {
+      cx: 30;
+  		rx: 10;
+      ry: 13;
+      stroke-width: 7;
+
+  		transition: cx .4s, rx .4s, ry .4s, stroke-width .4s;
+      transition-delay: 2s;
+      transform-origin: center;
+    }
+
+    svg:hover #innerCircle, svg:focus #innerCircle {
+      cx: 15;
+      rx: 8;
+      ry: 8;
+      stroke-width: 5;
+
+      transition-delay: 0s;
+      animation-name: eyeBlink;
+      animation-delay: 1s;
+      animation-duration: 1.5s;
+      animation-timing-function: ease-in-out;
+      animation-iteration-count: 1;
+    }
+
+    @keyframes eyeBlink {
+      from, 45%, 55%, to {
+        transform: scaleY(1);
+      }
+      50% {
+        transform: scaleY(0);
+      }
+    }
   </style>
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16.933 16.933">
-    <path d="M8.467 0A8.467 8.467 0 0 0 0 8.467a8.467 8.467 0 0 0 8.467 8.466 8.467 8.467 0 0 0 3.394-.72c-2.08-1.937-3.39-4.696-3.39-7.746 0-3.053 1.314-5.813 3.4-7.75A8.467 8.467 0 0 0 8.466 0zm6.76 3.382C13.687 4.536 12.7 6.376 12.7 8.467c0 2.09.985 3.93 2.523 5.083a8.467 8.467 0 0 0 1.71-5.083 8.467 8.467 0 0 0-1.708-5.085z" fill="{{color}}" />
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 30">
+  	<defs>
+  		<mask id="circleMask" maskUnits="userSpaceOnUse" x="0" y="0" width="30" height="30">
+  			<rect x="0" y="0" width="30" height="30" fill="black"></rect>
+  			<circle cx="15" cy="15" r="14" fill="white" stroke="white" stroke-width=".5" />
+  		</mask>
+  	</defs>
+    <circle cx="15" cy="15" r="14" fill="{{color}}"/>
+    <ellipse id="innerCircle" cx="15" cy="15" rx="13" ry="13" fill="none" stroke="{{strokeColor}}" stroke-width="7" mask="url(#circleMask)"/>
   </svg>
 </template>
