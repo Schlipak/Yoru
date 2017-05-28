@@ -9,15 +9,25 @@ import { YoruArray } from 'yoru/tsuika';
 import registerHelpers from './_hbs-helpers';
 const Handlebars = require('handlebars');
 
-const __insertPartial = function __insertPartial(element, template) {
+const __insertGlobalStyles = function __insertGlobalStyles(styles, target) {
+  if (styles) {
+    let clone = document.importNode(styles, true);
+    clone.id = '';
+    target.appendChild(clone);
+  }
+};
+
+const __insertPartial = function __insertPartial(element, template, globalStyles) {
   const shadow = element.createShadowRoot({ mode: 'open' });
+  __insertGlobalStyles(globalStyles, shadow);
   shadow.appendChild(template.content);
 };
 
 const __insertComponent = async function __insertComponent(
   element,
   template,
-  component
+  component,
+  globalStyles
 ) {
   const shadow = element.createShadowRoot({ mode: 'open' });
   component.beforeModel();
@@ -26,6 +36,7 @@ const __insertComponent = async function __insertComponent(
   const container = document.createElement('div');
   container.innerHTML = html;
   component.beforeAppend();
+  __insertGlobalStyles(globalStyles, shadow);
   YoruArray.from(container.children).forEach(child => {
     shadow.appendChild(child);
   });
@@ -51,6 +62,7 @@ export default class ShadowMaker extends YoruObject {
     this.consumer = consumer;
     this.components = {};
     this.componentInstances = {};
+    this.globalStyles = document.getElementById('global-styles');
 
     registerHelpers(Handlebars);
   }
@@ -80,14 +92,14 @@ export default class ShadowMaker extends YoruObject {
               Logger.debug(
                 `No component named ${name} found. Defaulting behavior to partial.`
               );
-              return __insertPartial(element, template);
+              return __insertPartial(element, template, this.globalStyles);
             } else {
               let instance = new componentData.constructor(
                 componentData.name,
                 componentData.options
               );
               Logger.debug(`Rendering component ${instance.objectId()}`);
-              await __insertComponent(element, template, instance);
+              await __insertComponent(element, template, instance, this.globalStyles);
               this.consumer.app.documents.push(element.shadowRoot);
               return await this.parseDOM(element.shadowRoot);
             }
