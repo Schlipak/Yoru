@@ -22,26 +22,31 @@
       transform-origin: center;
     }
 
-    svg:hover #innerCircle, svg:focus #innerCircle {
+    svg:hover #innerCircle,
+    svg:focus #innerCircle,
+    svg.animating #innerCircle {
       cx: 15;
       rx: 8;
       ry: 8;
       stroke-width: 5;
 
       transition-delay: 0s;
-      animation-name: eyeBlink;
+      animation-name: animationYoruEye;
       animation-delay: 1s;
-      animation-duration: 1.5s;
+      animation-duration: 3s;
       animation-timing-function: ease-in-out;
       animation-iteration-count: 1;
     }
 
-    @keyframes eyeBlink {
-      from, 45%, 55%, to {
-        transform: scaleY(1);
+    @keyframes animationYoruEye {
+      from, 50%, 85%, 90%, to {
+        transform: scaleY(1) translateX(0);
       }
-      50% {
-        transform: scaleY(0);
+      20%, 40% {
+        transform: scaleY(1) translateX(-5px);
+      }
+      87.5% {
+        transform: scaleY(0) translateX(0);
       }
     }
   </style>

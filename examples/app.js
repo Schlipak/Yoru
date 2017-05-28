@@ -24,17 +24,31 @@ const initApp = function initApp() {
           strokeColor: this.get('strokeColor'),
         };
       },
+
+      afterAppend() {
+        const shadow = this.get('shadow');
+        const icon = shadow.querySelector('svg');
+        Yoru.Run.later(() => {
+          icon.classList.add('animating');
+          Yoru.Run.later(() => {
+            icon.classList.remove('animating');
+          }, 4500);
+        }, 5000);
+      },
     });
 
     app.registerComponent('DemoContent', {
       model() {
-        return {};
+        return {
+          appName: '\\{{appName}}',
+          content: '\\{{content}}',
+        };
       },
     });
 
     app.registerComponent('CodeBlock', {
       model() {
-        return {};
+        return { lang: 'js' };
       },
     });
 

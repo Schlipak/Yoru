@@ -16,41 +16,113 @@
       position: relative;
       width: 100%;
       max-width: 1000px;
-      min-height: calc(100vh - 8em);
+      min-height: calc(100vh - 10em);
       margin-top: 8em;
       padding: 1em 1.5em;
 
       background-color: white;
       box-shadow: 0 0 2em rgba(0, 0, 0, .25);
     }
+
+    code {
+      display: inline-block;
+      position: relative;
+      padding: .25em .5em;
+      margin: 0 .25em;
+
+      font-family: 'Fira Mono', monospace;
+      font-size: .75em;
+      background-color: rgba(0, 0, 0, .1);
+      border-radius: .25em;
+    }
   </style>
   <main>
     <h2>Usage</h2>
     <ul>
-      <li>Include <code>yoru.pkg.min.js</code> in your page</li>
+      <li>
+        Include <code>yoru.pkg.min.js</code> in your page
+      </li>
+      <li>
+        Define your templates. These can be imported from external files using <code>&lt;link rel="import" href="path/to/templates.html"&gt;</code>
+      </li>
+      <li>
+        Script and fire up the app
+      </li>
     </ul>
     <code-block y:data:title="app.js">const initApp = function initApp() {
-  if (window.Yoru) {
-    const app = new Yoru();
+  const app = new Yoru();
 
-    app.registerComponent('MyComponent', {
-      // Define properties and methods here
+  app.registerComponent('MyComponent', {
+    // Define properties and methods here
 
-      // Components MUST define a model() method
-      model() {
-        return {
-          title: 'MyApp',
-          content: 'This is my new Yoru app!',
-        };
-      }
-    });
+    // Components MUST define a model() method
+    model() {
+      return {
+        title: 'MyApp',
+        content: 'This is my new Yoru app!',
+      };
+    },
+  });
 
-    app.boot().then(() => {
-      // After boot
-    });
-  }
+  app.boot().then(() => {
+    // After boot
+  });
 };
 
 document.addEventListener('DOMContentLoaded', initApp);</code-block>
+
+    <h2>Templating</h2>
+    <p>
+      Templates are defined using the HTML5 <code>&lt;template&gt;</code> element. These encapsulate your markup, and can also define styles specific to themselves.
+    </p>
+    <p>
+      Templates are rendered using <a href="http://handlebarsjs.com/">Handlebars</a>. The context components receive corresponds to the return value of the <code>model()</code> method, the passed parameters to the component element, plus some useful automatic builtin variables.
+      <ul>
+        <li>
+          <code>__component__</code>: A reference to the component itself
+        </li>
+        <li>
+          <code>__name__</code>: The component name
+        </li>
+        <li>
+          <code>__id__</code>: The ID of the host element
+        </li>
+        <li>
+          <code>__host__</code>: The host element
+        </li>
+        <li>
+          <code>__shadow__</code>: The component shadowRoot
+        </li>
+      </ul>
+    </p>
+    <code-block y:data:title="my-component.html" y:data:lang="html">&lt;template id=""&gt;
+  &lt;style media="screen"&gt;
+    /* References the element the component is rendered in (parent of shadow) */
+    :host {
+      /* ... */
+    }
+  &lt;/style&gt;
+  &lt;h1&gt;MyComponent for app {{{appName}}}&lt;/h1&gt;
+  &lt;p&gt;{{{content}}}&lt;/p&gt;
+&lt;/template&gt;</code-block>
+
+    <h2>Defining custom helpers</h2>
+    <p>
+      Custom Handlebars helpers can be registered before fireing the application via <code>Yoru.Handlebars.registerHelper()</code>.
+      See the <a href="http://handlebarsjs.com/block_helpers.html">Handlebars documentation</a> for more information about helpers.
+    </p>
+
+    <h2>Limitations</h2>
+    <p>
+      Some limitations exist, and will (hopefully) disappear in the future.
+    </p>
+    <ul>
+      <li>
+        Works only in (very) modern browsers. Because Yoru heavily depends on WebComponents, it won't run in a lot of browsers (including Firefox, at least not without setting a flag). Browsers need to support: ShadowDOM, HTML templates, HTML imports. Will be solved when polyfills are added to Yoru.
+      </li>
+      <li>
+        Components cannot encapsulate scripts. Yep, I know, that's sad. But the fact is scripts won't run when inserted in the DOM by Yoru as of today. Efforts will be done to fix this shortcoming. In the meantime, you can script components by overriding the <code>afterAppend</code> method. You can access the component's tree via <code>this.get('shadow');</code>.
+      </li>
+    </ul>
   </main>
 </template>

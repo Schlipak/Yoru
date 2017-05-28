@@ -1,8 +1,18 @@
 <template id="yoru-code-block">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.11.0/styles/github.min.css">
   <style media="screen">
+    :host {
+      margin-top: 1em;
+    }
+
+    pre {
+      margin: 0;
+    }
+
     pre code {
       border-radius: .5em;
+      font-family: 'Fira Mono', monospace;
+      font-size: .8em;
     }
 
     pre code:first-child {
@@ -10,14 +20,17 @@
       border-bottom-right-radius: 0;
 
       text-align: right;
-      border-right: 1px solid rgba(0, 0, 0, .1);
+      color: rgba(0, 0, 0, .5);
       -webkit-touch-callout: none;
     	-webkit-user-select: none;
     	-moz-user-select: none;
     	-ms-user-select: none;
     	user-select: none;
       cursor: default;
-      opacity: .75;
+    }
+
+    pre.with-title code:first-child {
+      border-top-left-radius: 0;
     }
 
     pre code:last-child {
@@ -25,11 +38,57 @@
       border-bottom-left-radius: 0;
       padding-left: 1.5em;
     }
+
+    pre.with-title code:last-child {
+      border-top-right-radius: 0;
+    }
+
+    .code-block .title {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-start;
+      align-items: center;
+      position: relative;
+      width: 100%;
+      padding: 0;
+      box-sizing: border-box;
+
+      color: rgba(0, 0, 0, .75);
+      background-color: #f0f0f0;
+      font-family: 'Fira Mono', monospace;
+      font-size: .8em;
+      border-bottom: 1px solid rgba(0, 0, 0, .1);
+      border-radius: .5em;
+      border-bottom-left-radius: 0;
+      border-bottom-right-radius: 0;
+      overflow: hidden;
+    }
+
+    .code-block .title .type {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      padding: .75em 1.25em;
+      margin-right: 1em;
+
+      font-size: .8em;
+      background-color: rgba(0, 0, 0, .1);
+      -webkit-touch-callout: none;
+    	-webkit-user-select: none;
+    	-moz-user-select: none;
+    	-ms-user-select: none;
+    	user-select: none;
+      cursor: default;
+    }
   </style>
   <div class="code-block">
     {{#if title}}
-      <div class="title">{{title}}</div>
+      <div class="title">
+        <div class="type">{{upper lang}}</div>
+        <span>{{title}}</span>
+      </div>
     {{/if}}
-    <pre><code class="js">{{yield}}</code></pre>
+    <pre class="{{if title 'with-title'}}"><code class="{{lang}}">{{yield}}</code></pre>
   </div>
 </template>
