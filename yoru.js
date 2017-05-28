@@ -5,6 +5,7 @@
 require('babel-core/register');
 require('babel-polyfill');
 
+const Handlebars = require('handlebars');
 import { YoruArray } from 'yoru/tsuika';
 import YoruObject from 'yoru/object';
 import { Logger, Scribe, Run } from 'yoru/komono';
@@ -18,6 +19,8 @@ const YORU_INFO_STYLE = `background: #000;
   border-radius: 1.5em;`;
 
 class Yoru extends YoruObject {
+  static Handlebars = Handlebars;
+
   static Logger = Logger;
   static Scribe = Scribe;
   static Run = Run;

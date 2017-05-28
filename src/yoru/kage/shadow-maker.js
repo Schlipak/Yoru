@@ -5,6 +5,8 @@
 import YoruObject from 'yoru/object';
 import Component from 'yoru/kage/component';
 import { Scribe, Logger } from 'yoru/komono';
+import { YoruArray } from 'yoru/tsuika';
+import registerHelpers from './_hbs-helpers';
 const Handlebars = require('handlebars');
 
 const __insertPartial = function __insertPartial(element, template) {
@@ -18,11 +20,15 @@ const __insertComponent = async function __insertComponent(
   component
 ) {
   const shadow = element.createShadowRoot({ mode: 'open' });
-  component.beforeAppend();
   component.beforeModel();
   const html = await component.applyModel(element, shadow, template);
-  shadow.innerHTML = html;
   component.afterModel();
+  const container = document.createElement('div');
+  container.innerHTML = html;
+  component.beforeAppend();
+  YoruArray.from(container.children).forEach(child => {
+    shadow.appendChild(child);
+  });
   component.afterAppend();
 };
 
@@ -46,22 +52,7 @@ export default class ShadowMaker extends YoruObject {
     this.components = {};
     this.componentInstances = {};
 
-    Handlebars.registerHelper('yield', function(options) {
-      if (options.fn) {
-        Logger.error(
-          'Yield cannot be used in block form, please use {{yield}}'
-        );
-        throw new Error('Yield used in block form');
-      }
-
-      const data = Object.assign(options.data.root, options.hash);
-      const component = data.__component__;
-      const yieldedContent = component.rootNode.innerHTML;
-
-      let hbsTemplate = Handlebars.compile(yieldedContent);
-      let html = hbsTemplate(data);
-      return new Handlebars.SafeString(html);
-    });
+    registerHelpers(Handlebars);
   }
 
   async init() {

@@ -3,6 +3,7 @@
 //
 
 import YoruObject from 'yoru/object';
+import { YoruArray } from 'yoru/tsuika';
 const Handlebars = require('handlebars');
 
 export default class Component extends YoruObject {
@@ -22,14 +23,36 @@ export default class Component extends YoruObject {
     return `Component-${this.name}`;
   }
 
+  consumeAttributeData() {
+    const rootNode = this.get('rootNode');
+    const reg = /y:data:(.+)/;
+    let attrData = {};
+
+    YoruArray.from(rootNode.attributes).forEach(attr => {
+      const match = reg.exec(attr.name);
+      if (match) {
+        attrData[match[1]] = attr.value;
+      }
+    });
+
+    return attrData;
+  }
+
   async applyModel(rootNode, shadow, template) {
     this.set('rootNode', rootNode);
     this.set('shadow', shadow);
 
-    const model = Object.assign(this.opts.model.call(this), {
-      __component__: this,
-      __name__: this.getName(),
-    });
+    const model = Object.assign(
+      this.opts.model.call(this),
+      {
+        __component__: this,
+        __name__: this.getName(),
+        __id__: this.get('objectId'),
+        __host__: this.get('rootNode'),
+        __shadow__: this.get('shadow')
+      },
+      this.consumeAttributeData()
+    );
     let hbsTemplate = await Handlebars.compile(template.innerHTML);
     let html = hbsTemplate(model);
 
