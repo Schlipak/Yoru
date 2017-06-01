@@ -1,5 +1,5 @@
 //
-// 夜/yoru_object.js
+// 夜/object.js
 //
 
 import { Logger } from 'yoru/komono';
