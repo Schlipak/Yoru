@@ -8,7 +8,8 @@
     "test": "test"
   },
   "dependencies": {
-    "handlebars": "^4.0.10"
+    "handlebars": "^4.0.10",
+    "shortid": "^2.2.8"
   },
   "devDependencies": {
     "babel-cli": "^6.24.1",

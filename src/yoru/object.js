@@ -2,23 +2,17 @@
 // 夜/object.js
 //
 
+const Shortid = require('shortid');
 import { Logger } from 'yoru/komono';
 
-let __globalObjectCount__ = 0;
-
 export default class YoruObject {
-  static _getGlobalObjectCount() {
-    return __globalObjectCount__;
-  }
-
   constructor() {
     this.__yoru__ = true;
-    this.__objectCount__ = __globalObjectCount__;
-    __globalObjectCount__++;
+    this.__objectId__ = Shortid.generate();
   }
 
   objectId() {
-    return `Yoru-${this.getName()}-${this.__objectCount__}`;
+    return `Yoru-${this.__objectId__}`;
   }
 
   getName() {

@@ -11,8 +11,8 @@ class RunInstance {
   }
 
   cancel() {
-    clearTimeout(this.get('id'));
-    this.set('done', true);
+    clearTimeout(this.id);
+    this.done = true;
   }
 }
 
@@ -41,7 +41,7 @@ const Run = {
   },
 
   cancel: function() {
-    const args = Array.from(arguments);
+    const args = Array.from(...arguments);
     args.forEach(run => {
       if (
         typeof run !== typeof {} ||
@@ -49,7 +49,7 @@ const Run = {
       ) {
         let type = typeof run;
         if (type === typeof {}) {
-          type += `[${run.constructor.name}]`;
+          type = `[object ${run.constructor.name}]`;
         }
         Logger.warn(`Argument is not a RunInstance (was ${type})`);
       } else {

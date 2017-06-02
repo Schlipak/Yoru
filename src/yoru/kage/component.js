@@ -56,7 +56,8 @@ export default class Component extends YoruObject {
     let hbsTemplate = await Handlebars.compile(template.innerHTML);
     let html = hbsTemplate(model);
 
-    this.rootNode.classList.add(this.objectId());
+    this.rootNode.id = this.objectId();
+    this.rootNode.classList.add('yoru-component');
     this.get('classes').forEach(kl => {
       this.rootNode.classList.add(kl);
     });

@@ -21,7 +21,7 @@
       padding: 1em 1.5em;
 
       background-color: white;
-      box-shadow: 0 0 2em rgba(0, 0, 0, .25);
+      box-shadow: 0 0 4em rgba(0, 0, 0, .15);
     }
 
     code {
@@ -95,7 +95,8 @@ document.addEventListener('DOMContentLoaded', initApp);</code-block>
         </li>
       </ul>
     </p>
-    <code-block y:data:title="my-component.html" y:data:lang="html">&lt;template id=""&gt;
+    <code-block y:data:title="my-component.html" y:data:lang="html">&lt;!-- The template ID must be the dasherized component name prefixed by `yoru-' --&gt;
+&lt;template id="yoru-my-component"&gt;
   &lt;style media="screen"&gt;
     /* References the element the component is rendered in (parent of shadow) */
     :host {

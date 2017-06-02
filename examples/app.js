@@ -52,6 +52,12 @@ const initApp = function initApp() {
       },
     });
 
+    app.registerComponent('demoFooter', {
+      model() {
+        return {};
+      }
+    });
+
     app.boot().then(() => {
       if (window.hljs) {
         const codeBlocks = app.find('pre code');
