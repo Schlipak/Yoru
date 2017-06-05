@@ -1,6 +1,6 @@
 NAME = yoru
-SKEL_DIRS = examples/ lib/ test/ src/ tmp/
-ESLINT_DIRS = test/ src/
+SKEL_DIRS = examples/ lib/ spec/ src/ tmp/
+ESLINT_DIRS = spec/ src/
 
 EXEC_BABEL = ./node_modules/.bin/babel
 EXEC_WEBPACK = ./node_modules/.bin/webpack
@@ -13,7 +13,8 @@ eslint:
 	@$(ECHO) "[\033[1;35mCHECK\033[0m] Running ESLint"
 	@./node_modules/eslint/bin/eslint.js $(ESLINT_DIRS) $(NAME).js
 
-tests: test
+test:
+	@npm test
 
 babel: fclean
 	@$(ECHO) "[\033[1;34mTRANS\033[0m] Running Babel"
