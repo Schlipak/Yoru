@@ -263,4 +263,40 @@ export default class YoruArray extends Array {
   union() {
     return this.concat(YoruArray.from(...arguments)).unique();
   }
+
+  /**
+   * intersect - Returns a new array containing the values present in
+   *  both this array and the parameter, without duplicates
+   *
+   * Does not mutate the array instance nor the parameters
+   *
+   * @returns {YoruArray} The resulting array
+   */
+  intersect(other) {
+    other = YoruArray.from(other);
+    return this.union(other).reduce((acc, el) => {
+      if (this.includes(el) && other.includes(el)) {
+        acc.push(el);
+      }
+      return acc;
+    }, new YoruArray());
+  }
+
+  /**
+   * difference - Returns a new array containing the values NOT present
+   *  in both this array and the parameter, without duplicates
+   *
+   * Does not mutate the array instance nor the parameters
+   *
+   * @returns {YoruArray} The resulting array
+   */
+  difference(other) {
+    other = YoruArray.from(other);
+    return this.union(other).reduce((acc, el) => {
+      if (!this.includes(el) || !other.includes(el)) {
+        acc.push(el);
+      }
+      return acc;
+    }, new YoruArray());
+  }
 }
