@@ -2,14 +2,21 @@
   "name": "yoru",
   "version": "0.1.2",
   "description": "A lightweight JavaScript framework based on Shadow DOM",
+  "author": "Guillaume `Schlipak` de Matos",
+  "license": "MIT",
+  "keywords": [
+    "yoru",
+    "framework",
+    "shadow",
+    "dom"
+  ],
   "main": "yoru.js",
   "directories": {
     "example": "examples",
-    "test": "specs"
+    "test": "test"
   },
   "dependencies": {
     "handlebars": "^4.0.10",
-    "jasmine": "^2.6.0",
     "shortid": "^2.2.8"
   },
   "devDependencies": {
@@ -25,14 +32,6 @@
     "webpack": "^2.5.1"
   },
   "scripts": {
-    "test": "jasmine"
-  },
-  "keywords": [
-    "yoru",
-    "framework",
-    "shadow",
-    "dom"
-  ],
-  "author": "Guillaume `Schlipak` de Matos",
-  "license": "MIT"
+    "test": "echo 'No tests yet!' && exit 1"
+  }
 }

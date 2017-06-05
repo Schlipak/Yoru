@@ -1,6 +1,6 @@
 NAME = yoru
-SKEL_DIRS = examples/ lib/ spec/ src/ tmp/
-ESLINT_DIRS = spec/ src/
+SKEL_DIRS = examples/ lib/ test/ src/ tmp/
+ESLINT_DIRS = test/ src/
 
 EXEC_BABEL = ./node_modules/.bin/babel
 EXEC_WEBPACK = ./node_modules/.bin/webpack
@@ -40,4 +40,4 @@ skel:
 	mkdir -p $(SKEL_DIRS) dist/
 	touch $(NAME).js
 
-.PHONY: all eslint tests babel skel
+.PHONY: all eslint test babel clean fclean skel
