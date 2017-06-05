@@ -15,6 +15,9 @@ const checkForConsole = function checkForConsole(mode) {
 };
 
 const checkCanDisplayStyles = function checkCanDisplayStyles() {
+  if (typeof navigator === typeof void 0) {
+    return false;
+  }
   const testUA = function testUA(reg) {
     return reg.test(navigator.userAgent);
   };
@@ -22,15 +25,19 @@ const checkCanDisplayStyles = function checkCanDisplayStyles() {
   const browser = {
     isFirefox: testUA(/firefox/i),
     isIE: testUA(/trident/i) || testUA(/edge/i),
+    isPhantom: testUA(/phantomjs/i),
   };
   browser.isWebkitBlink =
-    (testUA(/webkit/i) || testUA(/opr/i)) && !browser.isIE;
+    (testUA(/webkit/i) || testUA(/opr/i)) &&
+    !browser.isIE &&
+    !browser.isPhantom;
   const modifiedConsole =
     !browser.isIE &&
+    !browser.isPhantom &&
     !!window.console &&
     console.log.toString().indexOf('apply') !== -1;
 
-  return browser.isWebkitBlink || !!(browser.isFirefox && modifiedConsole);
+  return browser.isWebkitBlink || (browser.isFirefox && modifiedConsole);
 };
 
 const loggingModes = ['log', 'debug', 'info', 'warn', 'error'];
