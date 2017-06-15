@@ -2,6 +2,8 @@
 // 夜/小物/scribe.js
 //
 
+import YoruArray from 'yoru/tsuika/array';
+
 const Scribe = {
   upper: function(str = '') {
     return str.toUpperCase();
@@ -12,7 +14,16 @@ const Scribe = {
   },
 
   capitalize: function(str = '') {
-    return Scribe.upper(str.charAt(0)) + str.slice(1);
+    return Scribe.upper(str.charAt(0)) + Scribe.lower(str.slice(1));
+  },
+
+  capitalizeEach: function(str = '') {
+    let words = YoruArray.from(str.split(/([-_/\\&,;:\s])/));
+    return words
+      .mapEachPair((word, separator) => {
+        return Scribe.capitalize(word) + (separator || '');
+      })
+      .join('');
   },
 
   camelize: function(str = '') {

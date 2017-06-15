@@ -38,6 +38,20 @@ export default class YoruArray extends Array {
   }
 
   /**
+   * mapEachPair - Maps the array from each pair of elements
+   *
+   * @param  {function} callback - The callback to apply to each pair
+   * @returns {YoruArray} The YoruArray instance
+   */
+  mapEachPair(callback) {
+    let result = new YoruArray();
+    this.forEachPair((left, right) => {
+      result.push(callback(left, right));
+    });
+    return result;
+  }
+
+  /**
    * sample - Returns a random element from the array
    *
    * @returns {any} A random element from the array
