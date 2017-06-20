@@ -11,9 +11,12 @@
     "dom"
   ],
   "main": "yoru.js",
-  "bin": "./bin/yoru.js",
+  "bin": {
+    "yoru": "./bin/yoru.js"
+  },
   "directories": {
     "example": "examples",
+    "lib": "lib",
     "test": "test"
   },
   "dependencies": {
@@ -21,8 +24,9 @@
     "commander": "^2.9.0",
     "fs-extra": "^3.0.1",
     "handlebars": "^4.0.10",
-    "ora": "https://github.com/Schlipak/ora#add-promise-message",
-    "shortid": "^2.2.8"
+    "ora": "git+https://github.com/Schlipak/ora.git#add-promise-message",
+    "shortid": "^2.2.8",
+    "spawn-async": "^0.0.1"
   },
   "devDependencies": {
     "babel-cli": "^6.24.1",
@@ -38,5 +42,13 @@
   },
   "scripts": {
     "test": "echo 'No tests yet!' && exit 1"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/schlipak/yoru.git"
+  },
+  "bugs": {
+    "url": "https://github.com/schlipak/yoru/issues"
+  },
+  "homepage": "https://github.com/schlipak/yoru#readme"
 }
