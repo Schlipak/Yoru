@@ -3,18 +3,23 @@
 const cheerio = require('cheerio');
 const fs = require('fs-extra');
 const ora = require('ora');
+const path = require('path');
 
 const { Logger, SilentLogger, Run, ShSpawn, Scribe } = require('./utils');
 
 const copySkeletonFiles = async function copySkeletonFiles(name) {
   // {{name}}.js
   fs.appendFileSync(`app/${name}.js`, `// Entry point for ${name}\n\n`);
-  let strmIn = fs.createReadStream('../bin/skeletons/app.skeleton.js');
+  let strmIn = fs.createReadStream(
+    path.join(__dirname, '/../skeletons/app.skeleton.js')
+  );
   let strmOut = fs.createWriteStream(`app/${name}.js`, { flags: 'a' });
   strmIn.pipe(strmOut);
 
   // index.html
-  const html = fs.readFileSync('../bin/skeletons/index.skeleton.html');
+  const html = fs.readFileSync(
+    path.join(__dirname, '/../skeletons/index.skeleton.html')
+  );
   const $ = cheerio.load(html, { normalizeWhitespace: true });
   $('title').text(`ＹＯＲＵ ー ${Scribe.constantize(name)}`);
   $('hello-yoru').attr('y:data:appname', Scribe.constantize(name));
@@ -24,18 +29,17 @@ const copySkeletonFiles = async function copySkeletonFiles(name) {
   fs.appendFileSync('app/index.html', $.html());
 
   // hello-yoru.html
-  strmIn = fs.createReadStream('../bin/skeletons/hello-yoru.skeleton.html');
+  strmIn = fs.createReadStream(
+    path.join(__dirname, '/../skeletons/hello-yoru.skeleton.html')
+  );
   strmOut = fs.createWriteStream('app/templates/hello-yoru.html');
   strmIn.pipe(strmOut);
 
   // _all.html
-  strmIn = fs.createReadStream('../bin/skeletons/_all.skeleton.html');
+  strmIn = fs.createReadStream(
+    path.join(__dirname, '/../skeletons/_all.skeleton.html')
+  );
   strmOut = fs.createWriteStream('app/templates/_all.html');
-  strmIn.pipe(strmOut);
-
-  // yoru.pkg.min.js
-  strmIn = fs.createReadStream('../dist/yoru.pkg.min.js');
-  strmOut = fs.createWriteStream('app/yoru.pkg.min.js');
   strmIn.pipe(strmOut);
 };
 
