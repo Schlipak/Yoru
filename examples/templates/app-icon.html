@@ -13,11 +13,11 @@
 
     svg #innerCircle {
       cx: 30;
-  		rx: 10;
+      rx: 10;
       ry: 13;
       stroke-width: 7;
 
-  		transition: cx .4s, rx .4s, ry .4s, stroke-width .4s;
+      transition: cx .4s, rx .4s, ry .4s, stroke-width .4s;
       transition-delay: 2s;
       transform-origin: center;
     }
@@ -51,12 +51,12 @@
     }
   </style>
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 30">
-  	<defs>
-  		<mask id="circleMask" maskUnits="userSpaceOnUse" x="0" y="0" width="30" height="30">
-  			<rect x="0" y="0" width="30" height="30" fill="black"></rect>
-  			<circle cx="15" cy="15" r="14" fill="white" stroke="white" stroke-width=".5" />
-  		</mask>
-  	</defs>
+    <defs>
+      <mask id="circleMask" maskUnits="userSpaceOnUse" x="0" y="0" width="30" height="30">
+        <rect x="0" y="0" width="30" height="30" fill="black"></rect>
+        <circle cx="15" cy="15" r="14" fill="white" stroke="white" stroke-width=".5" />
+      </mask>
+    </defs>
     <circle cx="15" cy="15" r="14" fill="{{color}}"/>
     <ellipse id="innerCircle" cx="15" cy="15" rx="13" ry="13" fill="none" stroke="{{strokeColor}}" stroke-width="7" mask="url(#circleMask)"/>
   </svg>
