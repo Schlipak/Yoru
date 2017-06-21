@@ -75,8 +75,15 @@ const createPackageJson = async function createPackageJson(name) {
   return 'Created package.json';
 };
 
-const installDependencies = async function installDependencies(name) {
-  const output = await ShSpawn('npm', ['install']);
+const getManagerOpts = function getManagerOpts(manager) {
+  return {
+    npm: ['install'],
+    yarn: [],
+  }[manager];
+};
+
+const installDependencies = async function installDependencies(name, manager) {
+  const output = await ShSpawn(manager, getManagerOpts(manager));
   if (output) {
     Run.later(() => {
       if (output.stderr) {
@@ -90,7 +97,7 @@ const installDependencies = async function installDependencies(name) {
   return 'Installed dependencies';
 };
 
-const newApp = async function newApp(name) {
+const newApp = async function newApp(name, manager) {
   name = Scribe.dasherize(name);
   if (!/^[a-zA-Z0-9-_]+$/.test(name)) {
     Logger.error(`Invalid app name \`${name}'`);
@@ -112,7 +119,7 @@ const newApp = async function newApp(name) {
     promise = createPackageJson(name);
     ora.promise(promise, 'Creating package.json');
     await promise;
-    promise = installDependencies(name);
+    promise = installDependencies(name, manager);
     ora.promise(promise, 'Installing dependencies');
     await promise;
   } catch (err) {
