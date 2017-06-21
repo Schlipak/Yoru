@@ -20,6 +20,7 @@ const getAppName = function getAppName(path) {
 
 module.exports = class server {
   constructor() {
+    this.tries = 0;
     this.server = express();
     this.appName = getAppName(process.cwd());
     this.staticPath = path.join(process.cwd(), '/app');
@@ -34,10 +35,24 @@ module.exports = class server {
   }
 
   boot(port = 3000) {
+    this.tries++;
     Logger.info(`Booting server for app \`${this.appName}'`);
-    this.server.listen(port, () => {
-      Logger.info(`Listening on port ${port}`);
-      Logger.info(`Serving on ${chalk.green.bold('http://0.0.0.0:' + port)}`);
-    });
+    this.server
+      .listen(port, () => {
+        Logger.info(`Listening on port ${port}`);
+        Logger.info(`Serving on ${chalk.green.bold('http://0.0.0.0:' + port)}`);
+      })
+      .on('error', err => {
+        Logger.error(err);
+        if (this.tries > 5) {
+          Logger.error('Cannot find a free port, bailing out now!');
+          Logger.warn(
+            'Try starting the server by specifying a port number using --port <number>'
+          );
+          process.exit(1);
+        }
+        Logger.warn(`Retrying on port ${port + 1}`);
+        this.boot(port + 1);
+      });
   }
 };
