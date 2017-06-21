@@ -5,8 +5,9 @@ const newApp = require('./scripts/new');
 const server = require('./scripts/server');
 
 const { Scribe } = require('./scripts/utils');
+const pjson = require('../package.json');
 
-program.version('0.1.0');
+program.version(pjson.version);
 program
   .command('new <name>')
   .option(
