@@ -123,7 +123,7 @@ const newApp = async function newApp(name, manager) {
     ora.promise(promise, 'Installing dependencies');
     await promise;
   } catch (err) {
-    console.log(err);
+    Logger.error(err);
     process.exit(1);
   }
 };
