@@ -1,5 +1,5 @@
 NAME = yoru
-SKEL_DIRS = examples/ lib/ test/ src/ tmp/
+SKEL_DIRS = lib/ test/ src/ tmp/
 ESLINT_DIRS = test/ src/
 
 EXEC_BABEL = ./node_modules/.bin/babel
@@ -23,8 +23,6 @@ babel: fclean
 	@$(EXEC_WEBPACK) tmp/yoru.js dist/yoru.pkg.js
 	@$(ECHO) "[\033[1;34mMIN\033[0m] Running Uglify"
 	@./node_modules/.bin/uglifyjs dist/yoru.pkg.js > dist/yoru.pkg.min.js
-	@$(ECHO) "[\033[1;34mCP\033[0m] dist/ -> examples/"
-	@cp dist/yoru.pkg.min.js examples/
 	@$(ECHO) "[\033[1;32mOK\033[0m] All done!"
 
 clean:

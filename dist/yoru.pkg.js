@@ -2079,7 +2079,7 @@ Yoru.Logger = _komono.Logger;
 Yoru.Scribe = _komono.Scribe;
 Yoru.Run = _komono.Run;
 Yoru.Array = _tsuika.YoruArray;
-Yoru.VERSION = "0.1.2";
+Yoru.VERSION = "0.1.3";
 
 
 !function (Yoru) {
