@@ -7,11 +7,11 @@ require('babel-polyfill');
 
 const Handlebars = require('handlebars');
 
-import { YoruArray } from 'yoru/tsuika';
+import { YoruArray } from 'yoru/extensions';
 import YoruObject from 'yoru/object';
-import { Logger, Scribe, Run } from 'yoru/komono';
-import { ShadowMaker, TemplateConsumer } from 'yoru/kage';
-import { Preloader } from 'yoru/kokoro';
+import { Logger, Scribe, Run } from 'yoru/utils';
+import { ShadowMaker, TemplateConsumer } from 'yoru/shadow';
+import { Preloader } from 'yoru/internals';
 
 const YORU_INFO_STYLE = `background: #000;
   color: #FFF;

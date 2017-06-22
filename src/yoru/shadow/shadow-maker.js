@@ -1,11 +1,11 @@
 //
-// 夜/影/shadow-maker.js
+// 夜/Shadow/ShadowMaker
 //
 
 import YoruObject from 'yoru/object';
-import Component from 'yoru/kage/component';
-import { Scribe, Logger } from 'yoru/komono';
-import { YoruArray } from 'yoru/tsuika';
+import Component from 'yoru/shadow/component';
+import { Scribe, Logger } from 'yoru/utils';
+import { YoruArray } from 'yoru/extensions';
 import registerHelpers from './_hbs-helpers';
 const Handlebars = require('handlebars');
 

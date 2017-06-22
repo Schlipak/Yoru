@@ -1280,11 +1280,11 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.Run = exports.Scribe = exports.Logger = undefined;
 
-var _all = __webpack_require__(325);
+var _all = __webpack_require__(326);
 
 exports.Logger = _all.Logger;
 exports.Scribe = _all.Scribe;
-exports.Run = _all.Run; // Import helper for module Komono
+exports.Run = _all.Run; // Import helper for module Utils
 
 /***/ }),
 /* 41 */
@@ -1396,7 +1396,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _komono = __webpack_require__(40);
+var _utils = __webpack_require__(40);
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -1459,10 +1459,10 @@ var YoruObject = function () {
         var nextStep = obj[path[depth]];
         if (nextStep !== Object(nextStep)) {
           if (createObjects) {
-            _komono.Logger.warn('[YoruObject#set] Cannot dig through property `' + path[depth] + '` in path `' + prop + '`, forcing to object.');
+            _utils.Logger.warn('[YoruObject#set] Cannot dig through property `' + path[depth] + '` in path `' + prop + '`, forcing to object.');
             obj[path[depth]] = new YoruObject();
           } else {
-            _komono.Logger.error('[YoruObject#set] Cannot dig deeper! Property `' + path[depth] + '` in path `' + prop + '` is not an object.');
+            _utils.Logger.error('[YoruObject#set] Cannot dig deeper! Property `' + path[depth] + '` in path `' + prop + '` is not an object.');
             return false;
           }
         }
@@ -1935,9 +1935,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.YoruArray = undefined;
 
-var _all = __webpack_require__(329);
+var _all = __webpack_require__(315);
 
-exports.YoruArray = _all.YoruArray; // Import helper for module Tsuika
+exports.YoruArray = _all.YoruArray; // Import helper for module Extensions
 
 /***/ }),
 /* 63 */
@@ -1954,17 +1954,17 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _tsuika = __webpack_require__(62);
+var _extensions = __webpack_require__(62);
 
 var _object = __webpack_require__(46);
 
 var _object2 = _interopRequireDefault(_object);
 
-var _komono = __webpack_require__(40);
+var _utils = __webpack_require__(40);
 
-var _kage = __webpack_require__(315);
+var _shadow = __webpack_require__(320);
 
-var _kokoro = __webpack_require__(321);
+var _internals = __webpack_require__(316);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -1995,7 +1995,7 @@ var Yoru = function (_YoruObject) {
   _createClass(Yoru, null, [{
     key: 'A',
     value: function A() {
-      return new (Function.prototype.bind.apply(_tsuika.YoruArray, [null].concat(Array.prototype.slice.call(arguments))))();
+      return new (Function.prototype.bind.apply(_extensions.YoruArray, [null].concat(Array.prototype.slice.call(arguments))))();
     }
 
     /* eslint-disable no-undef */
@@ -2009,14 +2009,14 @@ var Yoru = function (_YoruObject) {
 
     var _this = _possibleConstructorReturn(this, (Yoru.__proto__ || Object.getPrototypeOf(Yoru)).apply(this, arguments));
 
-    _komono.Logger.raw('');
-    _komono.Logger.style('\u591C \u30FC \uFF39\uFF2F\uFF32\uFF35 \u30FC Version ' + Yoru.VERSION, YORU_INFO_STYLE);
-    _komono.Logger.raw('');
+    _utils.Logger.raw('');
+    _utils.Logger.style('\u591C \u30FC \uFF39\uFF2F\uFF32\uFF35 \u30FC Version ' + Yoru.VERSION, YORU_INFO_STYLE);
+    _utils.Logger.raw('');
 
     _this.documents = Yoru.A(document);
-    _this.templateConsumer = new _kage.TemplateConsumer(_this);
-    _this.shadowMaker = new _kage.ShadowMaker(_this.templateConsumer);
-    _this.preloader = new _kokoro.Preloader();
+    _this.templateConsumer = new _shadow.TemplateConsumer(_this);
+    _this.shadowMaker = new _shadow.ShadowMaker(_this.templateConsumer);
+    _this.preloader = new _internals.Preloader();
     _this.preloader.init();
     return _this;
   }
@@ -2029,7 +2029,7 @@ var Yoru = function (_YoruObject) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                _komono.Logger.info('Booting Yoru');
+                _utils.Logger.info('Booting Yoru');
 
                 this.templateConsumer.consume();
                 _context.next = 4;
@@ -2075,10 +2075,10 @@ var Yoru = function (_YoruObject) {
 
 Yoru.Handlebars = Handlebars;
 Yoru.Object = _object2.default;
-Yoru.Logger = _komono.Logger;
-Yoru.Scribe = _komono.Scribe;
-Yoru.Run = _komono.Run;
-Yoru.Array = _tsuika.YoruArray;
+Yoru.Logger = _utils.Logger;
+Yoru.Scribe = _utils.Scribe;
+Yoru.Run = _utils.Run;
+Yoru.Array = _extensions.YoruArray;
 Yoru.VERSION = "0.1.3";
 
 
@@ -8658,7 +8658,7 @@ function _extendableBuiltin(cls) {
 }
 
 //
-// 夜/追加/array.js
+// 夜/Extensions/Array
 //
 
 /**
@@ -14174,12 +14174,17 @@ module.exports = 0;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.TemplateConsumer = exports.ShadowMaker = undefined;
+exports.YoruArray = undefined;
 
-var _all = __webpack_require__(316);
+var _array = __webpack_require__(122);
 
-exports.ShadowMaker = _all.ShadowMaker;
-exports.TemplateConsumer = _all.TemplateConsumer; // Import helper for module Kage
+var _array2 = _interopRequireDefault(_array);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.YoruArray = _array2.default; //
+// 夜/Extensions
+//
 
 /***/ }),
 /* 316 */
@@ -14191,24 +14196,12 @@ exports.TemplateConsumer = _all.TemplateConsumer; // Import helper for module Ka
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.TemplateConsumer = exports.ShadowMaker = undefined;
+exports.Preloader = exports.Listener = undefined;
 
-var _shadowMaker = __webpack_require__(319);
+var _all = __webpack_require__(317);
 
-var _shadowMaker2 = _interopRequireDefault(_shadowMaker);
-
-var _templateConsumer = __webpack_require__(320);
-
-var _templateConsumer2 = _interopRequireDefault(_templateConsumer);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-//
-// 夜/影
-//
-
-exports.ShadowMaker = _shadowMaker2.default;
-exports.TemplateConsumer = _templateConsumer2.default;
+exports.Listener = _all.Listener;
+exports.Preloader = _all.Preloader; // Import helper for module Internals
 
 /***/ }),
 /* 317 */
@@ -14220,14 +14213,225 @@ exports.TemplateConsumer = _templateConsumer2.default;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.Preloader = exports.Listener = undefined;
+
+var _listener = __webpack_require__(318);
+
+var _listener2 = _interopRequireDefault(_listener);
+
+var _preloader = __webpack_require__(319);
+
+var _preloader2 = _interopRequireDefault(_preloader);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+//
+// 夜/Internals
+//
+
+exports.Listener = _listener2.default;
+exports.Preloader = _preloader2.default;
+
+/***/ }),
+/* 318 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _object = __webpack_require__(46);
+
+var _object2 = _interopRequireDefault(_object);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } //
+// 夜/Internals/Listener
+//
+
+var Listener = function (_YoruObject) {
+  _inherits(Listener, _YoruObject);
+
+  function Listener() {
+    _classCallCheck(this, Listener);
+
+    return _possibleConstructorReturn(this, (Listener.__proto__ || Object.getPrototypeOf(Listener)).apply(this, arguments));
+  }
+
+  return Listener;
+}(_object2.default);
+
+// (function() {
+//   Logger.debug('Registering prototype extensions');
+//   Function.prototype.listen = function() {
+//     Array.from(arguments).forEach(source => {
+//       ((src) => {
+//         // ${this.get('objectId')}
+//         console.log(this);
+//         console.log(this.get);
+//         window.addEventListener(`yoru.internal.${src}`, () => {
+//           console.log(src);
+//         });
+//       })(source);
+//     });
+//     return this;
+//   };
+// })();
+
+
+exports.default = Listener;
+
+/***/ }),
+/* 319 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _object = __webpack_require__(46);
+
+var _object2 = _interopRequireDefault(_object);
+
+var _utils = __webpack_require__(40);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } //
+// 夜/Internals/Preloader
+//
+
+var PRELOAD_CSS = 'body {\n  transform: scale(1);\n  transform-origin: top;\n  opacity: 1;\n  transition: transform .6s, opacity .6s;\n}\nbody.yoru-loading {\n  transform: scale(1.05);\n  opacity: 0;\n  transition: none;\n}';
+
+var PRELOAD_CLASS = 'yoru-loading';
+
+var Preloader = function (_YoruObject) {
+  _inherits(Preloader, _YoruObject);
+
+  function Preloader() {
+    _classCallCheck(this, Preloader);
+
+    var _this = _possibleConstructorReturn(this, (Preloader.__proto__ || Object.getPrototypeOf(Preloader)).apply(this, arguments));
+
+    _this.preloadStyle = document.createElement('style');
+    _this.preloadStyle.innerHTML = PRELOAD_CSS;
+    return _this;
+  }
+
+  _createClass(Preloader, [{
+    key: 'init',
+    value: function init() {
+      _utils.Logger.info('Starting preloader...');
+      this.startTime = new Date();
+      document.head.appendChild(this.preloadStyle);
+      document.body.classList.add(PRELOAD_CLASS);
+    }
+  }, {
+    key: 'tearDown',
+    value: function tearDown() {
+      var _this2 = this;
+
+      var endTime = new Date();
+      var dt = endTime.getTime() - this.startTime.getTime();
+      var unit = dt > 1000 ? 's' : 'ms';
+      dt = dt > 1000 ? dt / 1000 : dt;
+      _utils.Run.async(function () {
+        _utils.Logger.info('Done in ' + dt + unit + '! Tearing down preloader');
+        document.body.classList.remove(PRELOAD_CLASS);
+        _utils.Run.later(function () {
+          _this2.preloadStyle.parentNode.removeChild(_this2.preloadStyle);
+          _this2.preloadStyle = null;
+        }, 650);
+      });
+    }
+  }]);
+
+  return Preloader;
+}(_object2.default);
+
+exports.default = Preloader;
+
+/***/ }),
+/* 320 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.TemplateConsumer = exports.ShadowMaker = undefined;
+
+var _all = __webpack_require__(321);
+
+exports.ShadowMaker = _all.ShadowMaker;
+exports.TemplateConsumer = _all.TemplateConsumer; // Import helper for module Shadow
+
+/***/ }),
+/* 321 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.TemplateConsumer = exports.ShadowMaker = undefined;
+
+var _shadowMaker = __webpack_require__(324);
+
+var _shadowMaker2 = _interopRequireDefault(_shadowMaker);
+
+var _templateConsumer = __webpack_require__(325);
+
+var _templateConsumer2 = _interopRequireDefault(_templateConsumer);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+//
+// 夜/Shadow
+//
+
+exports.ShadowMaker = _shadowMaker2.default;
+exports.TemplateConsumer = _templateConsumer2.default;
+
+/***/ }),
+/* 322 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; //
-// 夜/影/_hbs-helpers.js
+// 夜/Shadow/_hbs-helpers
 //
 
 exports.default = registerHelpers;
 
-var _komono = __webpack_require__(40);
+var _utils = __webpack_require__(40);
 
 var helperIf = function helperIf(variable, options) {
   if ((typeof options === 'undefined' ? 'undefined' : _typeof(options)) === _typeof({})) {
@@ -14244,7 +14448,7 @@ var helperIf = function helperIf(variable, options) {
 function registerHelpers(Handlebars) {
   Handlebars.registerHelper('yield', function (options) {
     if (options.fn) {
-      _komono.Logger.error('Yield cannot be used in block form, please use {{yield}}');
+      _utils.Logger.error('Yield cannot be used in block form, please use {{yield}}');
       throw new Error('Yield used in block form');
     }
 
@@ -14266,16 +14470,16 @@ function registerHelpers(Handlebars) {
   });
 
   Handlebars.registerHelper('upper', function (value) {
-    return _komono.Scribe.upper(value);
+    return _utils.Scribe.upper(value);
   });
 
   Handlebars.registerHelper('lower', function (value) {
-    return _komono.Scribe.lower(value);
+    return _utils.Scribe.lower(value);
   });
 }
 
 /***/ }),
-/* 318 */
+/* 323 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14291,7 +14495,7 @@ var _object = __webpack_require__(46);
 
 var _object2 = _interopRequireDefault(_object);
 
-var _tsuika = __webpack_require__(62);
+var _extensions = __webpack_require__(62);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -14302,7 +14506,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } //
-// 夜/影/component.js
+// 夜/Shadow/Component
 //
 
 var Handlebars = __webpack_require__(90);
@@ -14341,7 +14545,7 @@ var Component = function (_YoruObject) {
       var reg = /y:data:(.+)/;
       var attrData = {};
 
-      _tsuika.YoruArray.from(rootNode.attributes).forEach(function (attr) {
+      _extensions.YoruArray.from(rootNode.attributes).forEach(function (attr) {
         var match = reg.exec(attr.name);
         if (match) {
           attrData[match[1]] = attr.value;
@@ -14418,7 +14622,7 @@ hooks.forEach(function (hook) {
 });
 
 /***/ }),
-/* 319 */
+/* 324 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14436,15 +14640,15 @@ var _object = __webpack_require__(46);
 
 var _object2 = _interopRequireDefault(_object);
 
-var _component = __webpack_require__(318);
+var _component = __webpack_require__(323);
 
 var _component2 = _interopRequireDefault(_component);
 
-var _komono = __webpack_require__(40);
+var _utils = __webpack_require__(40);
 
-var _tsuika = __webpack_require__(62);
+var _extensions = __webpack_require__(62);
 
-var _hbsHelpers = __webpack_require__(317);
+var _hbsHelpers = __webpack_require__(322);
 
 var _hbsHelpers2 = _interopRequireDefault(_hbsHelpers);
 
@@ -14459,7 +14663,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
 function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; } //
-// 夜/影/shadow-maker.js
+// 夜/Shadow/ShadowMaker
 //
 
 var Handlebars = __webpack_require__(90);
@@ -14500,7 +14704,7 @@ var __insertComponent = function () {
             container.innerHTML = html;
             component.beforeAppend();
             __insertGlobalStyles(globalStyles, shadow);
-            _tsuika.YoruArray.from(container.children).forEach(function (child) {
+            _extensions.YoruArray.from(container.children).forEach(function (child) {
               shadow.appendChild(child);
             });
             component.afterAppend();
@@ -14586,7 +14790,7 @@ var ShadowMaker = function (_YoruObject) {
           while (1) {
             switch (_context5.prev = _context5.next) {
               case 0:
-                _komono.Logger.debug('Now parsing children of ' + (rootNode.tagName || rootNode.host.tagName));
+                _utils.Logger.debug('Now parsing children of ' + (rootNode.tagName || rootNode.host.tagName));
 
                 _context5.next = 3;
                 return Promise.all(this.consumer.each().map(function () {
@@ -14600,7 +14804,7 @@ var ShadowMaker = function (_YoruObject) {
                       while (1) {
                         switch (_context4.prev = _context4.next) {
                           case 0:
-                            htmlTagName = _komono.Scribe.dasherize(name);
+                            htmlTagName = _utils.Scribe.dasherize(name);
                             elements = [];
 
                             if (__supportsGEBTN(rootNode)) {
@@ -14623,13 +14827,13 @@ var ShadowMaker = function (_YoruObject) {
                                           break;
                                         }
 
-                                        _komono.Logger.debug('No component named ' + name + ' found. Defaulting behavior to partial.');
+                                        _utils.Logger.debug('No component named ' + name + ' found. Defaulting behavior to partial.');
                                         return _context3.abrupt('return', __insertPartial(element, template, _this2.globalStyles));
 
                                       case 6:
                                         instance = new componentData.constructor(componentData.name, componentData.options);
 
-                                        _komono.Logger.debug('Rendering component ' + instance.objectId());
+                                        _utils.Logger.debug('Rendering component ' + instance.objectId());
                                         _context3.next = 10;
                                         return __insertComponent(element, template, instance, _this2.globalStyles);
 
@@ -14686,7 +14890,7 @@ var ShadowMaker = function (_YoruObject) {
     value: function registerComponent(name) {
       var opts = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
-      _komono.Logger.debug('Registering component ' + name);
+      _utils.Logger.debug('Registering component ' + name);
       var ctor = {};
       ctor[name] = function (_Component) {
         _inherits(_class, _Component);
@@ -14720,7 +14924,7 @@ var ShadowMaker = function (_YoruObject) {
 exports.default = ShadowMaker;
 
 /***/ }),
-/* 320 */
+/* 325 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14736,7 +14940,7 @@ var _object = __webpack_require__(46);
 
 var _object2 = _interopRequireDefault(_object);
 
-var _komono = __webpack_require__(40);
+var _utils = __webpack_require__(40);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -14745,7 +14949,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } //
-// 夜/影/template-consumer.js
+// 夜/Shadow/TemplateConsumer
 //
 
 var PREFIX = 'yoru-';
@@ -14762,12 +14966,12 @@ var TemplateConsumer = function (_YoruObject) {
     _this.templates = {};
 
     if (!('content' in document.createElement('template'))) {
-      _komono.Logger.error('Your browser does not support HTML templates, Yoru cannot cannot work without them :(');
+      _utils.Logger.error('Your browser does not support HTML templates, Yoru cannot cannot work without them :(');
       throw new Error('No support for <template>');
     }
 
     if (!('import' in document.createElement('link'))) {
-      _komono.Logger.error('Your browser does not support HTML imports, Yoru cannot cannot work without them :(');
+      _utils.Logger.error('Your browser does not support HTML imports, Yoru cannot cannot work without them :(');
       throw new Error('No support for <link rel="import">');
     }
     return _this;
@@ -14785,17 +14989,17 @@ var TemplateConsumer = function (_YoruObject) {
       });
       var templates = Array.from(documentRoot.querySelectorAll('template[id^="' + PREFIX + '"]'));
       templates.forEach(function (template) {
-        var templateName = _komono.Scribe.camelize(template.id.slice(PREFIX.length));
-        var htmlTagName = _komono.Scribe.dasherize(templateName);
+        var templateName = _utils.Scribe.camelize(template.id.slice(PREFIX.length));
+        var htmlTagName = _utils.Scribe.dasherize(templateName);
 
         if (!htmlTagName.match(/[\w\d]+(?:-[\w\d]+)+/)) {
-          _komono.Logger.warn('Template \'' + htmlTagName + '\' does not contain hyphens. To avoid collisions with any future HTML elements, please include at least an hyphen in your template/component name');
-          _komono.Logger.warn('Skipping template \'' + htmlTagName + '\'...');
+          _utils.Logger.warn('Template \'' + htmlTagName + '\' does not contain hyphens. To avoid collisions with any future HTML elements, please include at least an hyphen in your template/component name');
+          _utils.Logger.warn('Skipping template \'' + htmlTagName + '\'...');
         } else {
           if (_this2.templates[templateName]) {
-            _komono.Logger.warn('Duplicate template, \'' + htmlTagName + '\' is already registered');
+            _utils.Logger.warn('Duplicate template, \'' + htmlTagName + '\' is already registered');
           } else {
-            _komono.Logger.debug('Registering template for component \'' + templateName + '\', will match <' + htmlTagName + '> elements');
+            _utils.Logger.debug('Registering template for component \'' + templateName + '\', will match <' + htmlTagName + '> elements');
             _this2.templates[templateName] = template;
           }
         }
@@ -14831,189 +15035,7 @@ var TemplateConsumer = function (_YoruObject) {
 exports.default = TemplateConsumer;
 
 /***/ }),
-/* 321 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.Preloader = exports.Listener = undefined;
-
-var _all = __webpack_require__(322);
-
-exports.Listener = _all.Listener;
-exports.Preloader = _all.Preloader; // Import helper for module Kokoro
-
-/***/ }),
-/* 322 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.Preloader = exports.Listener = undefined;
-
-var _listener = __webpack_require__(323);
-
-var _listener2 = _interopRequireDefault(_listener);
-
-var _preloader = __webpack_require__(324);
-
-var _preloader2 = _interopRequireDefault(_preloader);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-//
-// 夜/心
-//
-
-exports.Listener = _listener2.default;
-exports.Preloader = _preloader2.default;
-
-/***/ }),
-/* 323 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _object = __webpack_require__(46);
-
-var _object2 = _interopRequireDefault(_object);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } //
-// 夜/心/listener.js
-//
-
-var Listener = function (_YoruObject) {
-  _inherits(Listener, _YoruObject);
-
-  function Listener() {
-    _classCallCheck(this, Listener);
-
-    return _possibleConstructorReturn(this, (Listener.__proto__ || Object.getPrototypeOf(Listener)).apply(this, arguments));
-  }
-
-  return Listener;
-}(_object2.default);
-
-// (function() {
-//   Logger.debug('Registering prototype extensions');
-//   Function.prototype.listen = function() {
-//     Array.from(arguments).forEach(source => {
-//       ((src) => {
-//         // ${this.get('objectId')}
-//         console.log(this);
-//         console.log(this.get);
-//         window.addEventListener(`yoru.internal.${src}`, () => {
-//           console.log(src);
-//         });
-//       })(source);
-//     });
-//     return this;
-//   };
-// })();
-
-
-exports.default = Listener;
-
-/***/ }),
-/* 324 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _object = __webpack_require__(46);
-
-var _object2 = _interopRequireDefault(_object);
-
-var _komono = __webpack_require__(40);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } //
-// 夜/心/preloader.js
-//
-
-var PRELOAD_CSS = 'body {\n  transform: scale(1);\n  transform-origin: top;\n  opacity: 1;\n  transition: transform .6s, opacity .6s;\n}\nbody.yoru-loading {\n  transform: scale(1.05);\n  opacity: 0;\n  transition: none;\n}';
-
-var PRELOAD_CLASS = 'yoru-loading';
-
-var Preloader = function (_YoruObject) {
-  _inherits(Preloader, _YoruObject);
-
-  function Preloader() {
-    _classCallCheck(this, Preloader);
-
-    var _this = _possibleConstructorReturn(this, (Preloader.__proto__ || Object.getPrototypeOf(Preloader)).apply(this, arguments));
-
-    _this.preloadStyle = document.createElement('style');
-    _this.preloadStyle.innerHTML = PRELOAD_CSS;
-    return _this;
-  }
-
-  _createClass(Preloader, [{
-    key: 'init',
-    value: function init() {
-      _komono.Logger.info('Starting preloader...');
-      this.startTime = new Date();
-      document.head.appendChild(this.preloadStyle);
-      document.body.classList.add(PRELOAD_CLASS);
-    }
-  }, {
-    key: 'tearDown',
-    value: function tearDown() {
-      var _this2 = this;
-
-      var endTime = new Date();
-      var dt = endTime.getTime() - this.startTime.getTime();
-      var unit = dt > 1000 ? 's' : 'ms';
-      dt = dt > 1000 ? dt / 1000 : dt;
-      _komono.Run.async(function () {
-        _komono.Logger.info('Done in ' + dt + unit + '! Tearing down preloader');
-        document.body.classList.remove(PRELOAD_CLASS);
-        _komono.Run.later(function () {
-          _this2.preloadStyle.parentNode.removeChild(_this2.preloadStyle);
-          _this2.preloadStyle = null;
-        }, 650);
-      });
-    }
-  }]);
-
-  return Preloader;
-}(_object2.default);
-
-exports.default = Preloader;
-
-/***/ }),
-/* 325 */
+/* 326 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15024,15 +15046,15 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.Run = exports.Scribe = exports.Logger = undefined;
 
-var _logger = __webpack_require__(326);
+var _logger = __webpack_require__(327);
 
 var _logger2 = _interopRequireDefault(_logger);
 
-var _scribe = __webpack_require__(328);
+var _scribe = __webpack_require__(329);
 
 var _scribe2 = _interopRequireDefault(_scribe);
 
-var _run = __webpack_require__(327);
+var _run = __webpack_require__(328);
 
 var _run2 = _interopRequireDefault(_run);
 
@@ -15041,11 +15063,11 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 exports.Logger = _logger2.default;
 exports.Scribe = _scribe2.default;
 exports.Run = _run2.default; //
-// 夜/小物
+// 夜/Utils
 //
 
 /***/ }),
-/* 326 */
+/* 327 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15056,10 +15078,10 @@ Object.defineProperty(exports, "__esModule", {
 });
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; //
-// 夜/小物/logger.js
+// 夜/Utils/Logger
 //
 
-var _tsuika = __webpack_require__(62);
+var _extensions = __webpack_require__(62);
 
 var checkForConsole = function checkForConsole(mode) {
   if (!window.console) {
@@ -15103,7 +15125,7 @@ var Logger = {
   },
 
   style: function style() {
-    var args = _tsuika.YoruArray.from(arguments);
+    var args = _extensions.YoruArray.from(arguments);
     if (!checkCanDisplayStyles()) {
       args.forEachPair(function (message) {
         Logger.raw(message);
@@ -15130,7 +15152,7 @@ loggingModes.forEach(function (mode) {
 exports.default = Logger;
 
 /***/ }),
-/* 327 */
+/* 328 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15143,10 +15165,10 @@ Object.defineProperty(exports, "__esModule", {
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }(); //
-// 夜/小物/run.js
+// 夜/Utils/Run
 //
 
-var _komono = __webpack_require__(40);
+var _utils = __webpack_require__(40);
 
 function _toArray(arr) { return Array.isArray(arr) ? arr : Array.from(arr); }
 
@@ -15208,7 +15230,7 @@ var Run = {
         if (type === _typeof({})) {
           type = '[object ' + run.constructor.name + ']';
         }
-        _komono.Logger.warn('Argument is not a RunInstance (was ' + type + ')');
+        _utils.Logger.warn('Argument is not a RunInstance (was ' + type + ')');
       } else {
         run.cancel();
       }
@@ -15219,7 +15241,7 @@ var Run = {
 exports.default = Run;
 
 /***/ }),
-/* 328 */
+/* 329 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15281,32 +15303,10 @@ var Scribe = {
     }).join('-');
   }
 }; //
-// 夜/小物/scribe.js
+// 夜/Utils/Scribe
 //
 
 exports.default = Scribe;
-
-/***/ }),
-/* 329 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.YoruArray = undefined;
-
-var _array = __webpack_require__(122);
-
-var _array2 = _interopRequireDefault(_array);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-exports.YoruArray = _array2.default; //
-// 夜/追加
-//
 
 /***/ }),
 /* 330 */

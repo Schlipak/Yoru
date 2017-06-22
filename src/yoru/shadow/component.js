@@ -1,9 +1,9 @@
 //
-// 夜/影/component.js
+// 夜/Shadow/Component
 //
 
 import YoruObject from 'yoru/object';
-import { YoruArray } from 'yoru/tsuika';
+import { YoruArray } from 'yoru/extensions';
 const Handlebars = require('handlebars');
 
 export default class Component extends YoruObject {

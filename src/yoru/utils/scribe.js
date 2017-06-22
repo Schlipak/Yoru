@@ -1,8 +1,8 @@
 //
-// 夜/小物/scribe.js
+// 夜/Utils/Scribe
 //
 
-import YoruArray from 'yoru/tsuika/array';
+import YoruArray from 'yoru/extensions/array';
 
 const Scribe = {
   upper: function(str = '') {

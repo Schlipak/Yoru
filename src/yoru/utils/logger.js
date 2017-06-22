@@ -1,8 +1,8 @@
 //
-// 夜/小物/logger.js
+// 夜/Utils/Logger
 //
 
-import { YoruArray } from 'yoru/tsuika';
+import { YoruArray } from 'yoru/extensions';
 
 const checkForConsole = function checkForConsole(mode) {
   if (!window.console) {

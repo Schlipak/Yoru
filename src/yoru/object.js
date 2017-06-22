@@ -3,7 +3,7 @@
 //
 
 const Shortid = require('shortid');
-import { Logger } from 'yoru/komono';
+import { Logger } from 'yoru/utils';
 
 export default class YoruObject {
   constructor() {

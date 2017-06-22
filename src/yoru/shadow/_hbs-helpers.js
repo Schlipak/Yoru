@@ -1,8 +1,8 @@
 //
-// 夜/影/_hbs-helpers.js
+// 夜/Shadow/_hbs-helpers
 //
 
-import { Logger, Scribe } from 'yoru/komono';
+import { Logger, Scribe } from 'yoru/utils';
 
 const helperIf = function helperIf(variable, options) {
   if (typeof options === typeof {}) {
