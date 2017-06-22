@@ -15,7 +15,7 @@ const Logger = {};
 verbs.forEach(verb => {
   Logger[verb.name] = message => {
     console[verb.name](
-      `[${chalk[verb.color](verb.name.toUpperCase())}] ${message}`
+      `\r[${chalk[verb.color](verb.name.toUpperCase())}] ${message}`
     );
   };
 });
