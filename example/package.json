@@ -1,0 +1,17 @@
+{
+  "name": "example",
+  "version": "0.1.0",
+  "description": "My new Yoru app",
+  "main": "app/example.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "yoru"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "yoru": "https://github.com/Schlipak/Yoru"
+  }
+}

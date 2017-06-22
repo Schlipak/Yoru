@@ -44,6 +44,7 @@ const copySkeletonFiles = async function copySkeletonFiles(name) {
 };
 
 const createSkeleton = async function createSkeleton(name) {
+  await fs.ensureDir('assets');
   await fs.ensureDir('app');
   process.chdir('app');
   fs.closeSync(fs.openSync(`${name}.js`, 'w'));
