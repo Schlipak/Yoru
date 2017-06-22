@@ -3,6 +3,7 @@
 const path = require('path');
 const express = require('express');
 const chalk = require('chalk');
+const opn = require('opn');
 
 const { Logger, SilentLogger, Run, ShSpawn, Scribe } = require('./utils');
 
@@ -69,6 +70,7 @@ module.exports = class server {
       .listen(port, () => {
         Logger.info(`Listening on port ${port}`);
         Logger.info(`Serving on ${chalk.green.bold('http://0.0.0.0:' + port)}`);
+        opn(`http://0.0.0.0:${port}`);
         process.on('SIGINT', () => {
           Logger.info('Received interrupt, stopping server now');
           Logger.info('Goodbye!');

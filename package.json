@@ -27,6 +27,7 @@
     "fs-extra": "^3.0.1",
     "handlebars": "^4.0.10",
     "morgan": "^1.8.2",
+    "opn": "^5.1.0",
     "ora": "git+https://github.com/Schlipak/ora.git#add-promise-message",
     "shortid": "^2.2.8",
     "spawn-async": "^0.0.1",
