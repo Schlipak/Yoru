@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
-require('../node_modules/babel-core/register');
-require('../node_modules/babel-polyfill');
+require('babel-core/register');
+require('babel-polyfill');
 
 const program = require('commander');
 const newApp = require('./scripts/new');
