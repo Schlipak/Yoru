@@ -35,7 +35,7 @@
   },
   "devDependencies": {
     "babel-cli": "^6.24.1",
-    "babel-core": "^6.0.20",
+    "babel-core": "^6.25.0",
     "babel-eslint": "^6.1.2",
     "babel-plugin-transform-builtin-extend": "^1.1.2",
     "babel-polyfill": "^6.23.0",
