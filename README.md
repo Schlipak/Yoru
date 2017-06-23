@@ -1,4 +1,4 @@
-# ![Yoru Logo](examples/img/favicon.png) 夜 ー ＹＯＲＵ
+# ![Yoru Logo](example/assets/img/favicon.png) 夜 ー ＹＯＲＵ
 
 A lightweight JavaScript framework based on Template and Shadow
 
