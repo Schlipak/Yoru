@@ -104,7 +104,7 @@ var Scribe = {
   dasherize: function dasherize() {
     var str = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
 
-    var words = str.split(/(?=[A-Z])/);
+    var words = str.split(/(?=[A-Z])|[-_]/);
     return words.map(function (word) {
       return Scribe.lower(word);
     }).join('-');

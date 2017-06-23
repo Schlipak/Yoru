@@ -100,10 +100,10 @@ const installDependencies = async function installDependencies(name, manager) {
 
 const newApp = async function newApp(name, manager) {
   name = Scribe.dasherize(name);
-  if (!/^[a-zA-Z0-9-_]+$/.test(name)) {
+  if (!/^[\w\d][\w\d-]*$/.test(name)) {
     Logger.error(`Invalid app name \`${name}'`);
     Logger.error(
-      'Name must only contain alphanumeric characters or dashes and underscores'
+      'Name must match /^[\\w\\d][\\w\\d-]*$/'
     );
     process.exit(1);
   }

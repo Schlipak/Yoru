@@ -213,9 +213,9 @@ var newApp = function () {
         switch (_context5.prev = _context5.next) {
           case 0:
             name = Scribe.dasherize(name);
-            if (!/^[a-zA-Z0-9-_]+$/.test(name)) {
+            if (!/^[\w\d][\w\d-]*$/.test(name)) {
               Logger.error('Invalid app name `' + name + '\'');
-              Logger.error('Name must only contain alphanumeric characters or dashes and underscores');
+              Logger.error('Name must match /^[\\w\\d][\\w\\d-]*$/');
               process.exit(1);
             }
             Logger.info('Creating new Yoru app `' + name + '\'');

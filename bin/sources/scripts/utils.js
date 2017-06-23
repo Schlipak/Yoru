@@ -76,7 +76,7 @@ const Scribe = {
   },
 
   dasherize: function(str = '') {
-    let words = str.split(/(?=[A-Z])/);
+    let words = str.split(/(?=[A-Z])|[-_]/);
     return words
       .map(word => {
         return Scribe.lower(word);
