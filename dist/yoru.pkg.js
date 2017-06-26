@@ -1472,6 +1472,18 @@ var YoruObject = function () {
       obj[path[lastDepth]] = value;
       return true;
     }
+  }, {
+    key: 'forEachOwnProperty',
+    value: function forEachOwnProperty(callback) {
+      if (!callback || (typeof callback === 'undefined' ? 'undefined' : _typeof(callback)) !== _typeof(function () {})) {
+        throw new TypeError('Callback is not a function');
+      }
+      for (var prop in this) {
+        if (this.hasOwnProperty(prop)) {
+          callback(prop);
+        }
+      }
+    }
   }], [{
     key: 'toString',
     value: function toString() {

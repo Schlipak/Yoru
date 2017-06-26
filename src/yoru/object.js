@@ -51,12 +51,16 @@ export default class YoruObject {
       if (nextStep !== Object(nextStep)) {
         if (createObjects) {
           Logger.warn(
-            `[YoruObject#set] Cannot dig through property \`${path[depth]}\` in path \`${prop}\`, forcing to object.`
+            `[YoruObject#set] Cannot dig through property \`${path[
+              depth
+            ]}\` in path \`${prop}\`, forcing to object.`
           );
           obj[path[depth]] = new YoruObject();
         } else {
           Logger.error(
-            `[YoruObject#set] Cannot dig deeper! Property \`${path[depth]}\` in path \`${prop}\` is not an object.`
+            `[YoruObject#set] Cannot dig deeper! Property \`${path[
+              depth
+            ]}\` in path \`${prop}\` is not an object.`
           );
           return false;
         }
@@ -66,5 +70,16 @@ export default class YoruObject {
 
     obj[path[lastDepth]] = value;
     return true;
+  }
+
+  forEachOwnProperty(callback) {
+    if (!callback || typeof callback !== typeof (() => {})) {
+      throw new TypeError('Callback is not a function');
+    }
+    for (let prop in this) {
+      if (this.hasOwnProperty(prop)) {
+        callback(prop);
+      }
+    }
   }
 }
