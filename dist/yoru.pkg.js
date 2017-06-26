@@ -1443,6 +1443,11 @@ var YoruObject = function (_ProxyObject) {
       return this.constructor.name;
     }
   }, {
+    key: 'toString',
+    value: function toString() {
+      return '<#' + this.constructor.name + ' (instance)>';
+    }
+  }, {
     key: 'forEachOwnProperty',
     value: function forEachOwnProperty(callback) {
       if (!callback || (typeof callback === 'undefined' ? 'undefined' : _typeof(callback)) !== _typeof(function () {})) {
@@ -1453,6 +1458,11 @@ var YoruObject = function (_ProxyObject) {
           callback(prop);
         }
       }
+    }
+  }], [{
+    key: 'toString',
+    value: function toString() {
+      return '<:' + this.name + ' (class)>';
     }
   }]);
 
