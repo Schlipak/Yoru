@@ -23,6 +23,10 @@ export default class Component extends YoruObject {
     return `Component-${this.name}`;
   }
 
+  toString() {
+    return `<#${this.getName()} ${this.objectId()}>`;
+  }
+
   consumeAttributeData() {
     const rootNode = this.get('rootNode');
     const reg = /y:data:(.+)/;
@@ -49,7 +53,7 @@ export default class Component extends YoruObject {
         __name__: this.getName(),
         __id__: this.objectId(),
         __host__: this.get('rootNode'),
-        __shadow__: this.get('shadow')
+        __shadow__: this.get('shadow'),
       },
       this.consumeAttributeData()
     );

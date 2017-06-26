@@ -1440,7 +1440,7 @@ var YoruObject = function (_ProxyObject) {
   }, {
     key: 'toString',
     value: function toString() {
-      return '<#' + this.constructor.name + ' (instance)>';
+      return '<#' + this.constructor.name + ' ' + this.objectId() + '>';
     }
   }, {
     key: 'forEachOwnProperty',
@@ -8615,6 +8615,7 @@ var _komono = __webpack_require__(40);
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var PROXY_LOG_STYLE = 'color: #999;';
+var PROXY_NOTIFY_STYLE = 'color: #6d9eab;';
 
 var ProxyHandler = {
   get: function get(target, prop) {
@@ -8631,6 +8632,7 @@ var ProxyHandler = {
     }
     _komono.Logger.style('[ProxyObject] SET ' + prop + ' => ' + displayValue, PROXY_LOG_STYLE);
     target[prop] = value;
+    target.__self__.notifyPropertyChanged(prop);
     return true;
   }
 };
@@ -8639,7 +8641,9 @@ var ProxyObject = function () {
   function ProxyObject() {
     _classCallCheck(this, ProxyObject);
 
-    this.__proxy__ = new Proxy({}, ProxyHandler);
+    this.__proxy__ = new Proxy({
+      __self__: this
+    }, ProxyHandler);
   }
 
   _createClass(ProxyObject, [{
@@ -8652,6 +8656,11 @@ var ProxyObject = function () {
           }
         }
       }
+    }
+  }, {
+    key: 'notifyPropertyChanged',
+    value: function notifyPropertyChanged(prop) {
+      _komono.Logger.style('[NOTIFY] ' + this + '.' + prop + ' changed', PROXY_NOTIFY_STYLE);
     }
   }, {
     key: 'get',
@@ -14418,6 +14427,11 @@ var Component = function (_YoruObject) {
     key: 'getName',
     value: function getName() {
       return 'Component-' + this.name;
+    }
+  }, {
+    key: 'toString',
+    value: function toString() {
+      return '<#' + this.getName() + ' ' + this.objectId() + '>';
     }
   }, {
     key: 'consumeAttributeData',

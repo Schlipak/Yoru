@@ -5,6 +5,7 @@
 import { Logger } from 'yoru/komono';
 
 const PROXY_LOG_STYLE = 'color: #999;';
+const PROXY_NOTIFY_STYLE = 'color: #6d9eab;';
 
 const ProxyHandler = {
   get: (target, prop) => {
@@ -24,13 +25,19 @@ const ProxyHandler = {
       PROXY_LOG_STYLE
     );
     target[prop] = value;
+    target.__self__.notifyPropertyChanged(prop);
     return true;
   },
 };
 
 export default class ProxyObject {
   constructor() {
-    this.__proxy__ = new Proxy({}, ProxyHandler);
+    this.__proxy__ = new Proxy(
+      {
+        __self__: this,
+      },
+      ProxyHandler
+    );
   }
 
   __initProxyProperties(init) {
@@ -41,6 +48,10 @@ export default class ProxyObject {
         }
       }
     }
+  }
+
+  notifyPropertyChanged(prop) {
+    Logger.style(`[NOTIFY] ${this}.${prop} changed`, PROXY_NOTIFY_STYLE);
   }
 
   get(prop) {

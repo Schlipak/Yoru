@@ -21,7 +21,7 @@ export default class YoruObject extends ProxyObject {
   }
 
   toString() {
-    return `<#${this.constructor.name} (instance)>`;
+    return `<#${this.constructor.name} ${this.objectId()}>`;
   }
 
   static toString() {
