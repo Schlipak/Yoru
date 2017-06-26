@@ -25,7 +25,7 @@ export default function registerHelpers(Handlebars) {
 
     const data = Object.assign(options.data.root, options.hash);
     const component = data.__component__;
-    const yieldedContent = component.rootNode.innerHTML;
+    const yieldedContent = component.get('rootNode').innerHTML;
 
     let hbsTemplate = Handlebars.compile(yieldedContent);
     let html = hbsTemplate(data);

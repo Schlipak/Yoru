@@ -1424,11 +1424,6 @@ var YoruObject = function (_ProxyObject) {
 
     _this.__yoru__ = true;
     _this.__objectId__ = Shortid.generate();
-
-    _this.__initProxyProperties({
-      objectId: _this.objectId(),
-      name: _this.getName()
-    });
     return _this;
   }
 
@@ -2000,7 +1995,7 @@ var Yoru = function (_YoruObject) {
     _komono.Logger.style('\u591C \u30FC \uFF39\uFF2F\uFF32\uFF35 \u30FC Version ' + Yoru.VERSION, YORU_INFO_STYLE);
     _komono.Logger.raw('');
 
-    _this.documents = Yoru.A(document);
+    _this.set('documents', Yoru.A(document));
     _this.templateConsumer = new _kage.TemplateConsumer(_this);
     _this.shadowMaker = new _kage.ShadowMaker(_this.templateConsumer);
     _this.preloader = new _kokoro.Preloader();
@@ -8609,9 +8604,9 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }(); //
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; //
 // 夜/心/proxy-object.js
 //
 
@@ -8619,16 +8614,22 @@ var _komono = __webpack_require__(40);
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
+var PROXY_LOG_STYLE = 'color: #999;';
+
 var ProxyHandler = {
   get: function get(target, prop) {
-    console.log('GET ' + target.name + '.' + prop);
+    _komono.Logger.style('[ProxyObject] GET ' + prop, PROXY_LOG_STYLE);
     if (prop in target) {
       return target[prop];
     }
   },
 
   set: function set(target, prop, value) {
-    console.log('SET ' + target.name + '.' + prop + ' => ' + value);
+    var displayValue = value;
+    if ((typeof value === 'undefined' ? 'undefined' : _typeof(value)) === _typeof(function () {})) {
+      displayValue = '[Function]';
+    }
+    _komono.Logger.style('[ProxyObject] SET ' + prop + ' => ' + displayValue, PROXY_LOG_STYLE);
     target[prop] = value;
     return true;
   }
@@ -8658,34 +8659,34 @@ var ProxyObject = function () {
       var _this = this;
 
       var path = prop.split('.');
-      var obj = this.__proxy__;
+      var context = this.__proxy__;
 
       path.forEach(function (prop) {
-        obj = (obj || {})[prop];
-        if ((typeof obj === 'undefined' ? 'undefined' : _typeof(obj)) === _typeof(function () {})) {
-          obj = obj.call(_this);
+        context = (context.__proxy__ || context || {})[prop];
+        if ((typeof context === 'undefined' ? 'undefined' : _typeof(context)) === _typeof(function () {})) {
+          context = context.call(_this);
         }
       });
 
-      return obj;
+      return context;
     }
   }, {
     key: 'set',
     value: function set(prop, value) {
       var path = prop.split('.');
       var lastDepth = path.length - 1;
-      var obj = this.__proxy__;
+      var context = this.__proxy__;
 
       for (var depth = 0; depth < lastDepth; depth++) {
-        var nextStep = obj[path[depth]];
+        var nextStep = context[path[depth]];
         if (depth < lastDepth && !nextStep.__yoru__) {
-          _komono.Logger.error('[YoruObject#set] Cannot dig deeper! Property `' + path[depth] + '` in path `' + prop + '` is not an object.');
+          _komono.Logger.error('[ProxyObject#set] Cannot dig deeper! Property `' + path[depth] + '` in path `' + prop + '` is not an object.');
           return false;
         }
-        obj = nextStep;
+        context = nextStep;
       }
 
-      obj[path[lastDepth]] = value;
+      context[path[lastDepth]] = value;
       return true;
     }
   }]);
@@ -14334,7 +14335,7 @@ function registerHelpers(Handlebars) {
 
     var data = Object.assign(options.data.root, options.hash);
     var component = data.__component__;
-    var yieldedContent = component.rootNode.innerHTML;
+    var yieldedContent = component.get('rootNode').innerHTML;
 
     var hbsTemplate = Handlebars.compile(yieldedContent);
     var html = hbsTemplate(data);
@@ -14404,7 +14405,7 @@ var Component = function (_YoruObject) {
     _this.name = name;
     _this.opts = opts;
 
-    _this.classes = [];
+    _this.set('classes', []);
     return _this;
   }
 
@@ -14438,8 +14439,6 @@ var Component = function (_YoruObject) {
     key: 'applyModel',
     value: function () {
       var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee(rootNode, shadow, template) {
-        var _this2 = this;
-
         var model, hbsTemplate, html;
         return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
@@ -14451,7 +14450,7 @@ var Component = function (_YoruObject) {
                 model = Object.assign(this.opts.model.call(this), {
                   __component__: this,
                   __name__: this.getName(),
-                  __id__: this.get('objectId'),
+                  __id__: this.objectId(),
                   __host__: this.get('rootNode'),
                   __shadow__: this.get('shadow')
                 }, this.consumeAttributeData());
@@ -14463,10 +14462,10 @@ var Component = function (_YoruObject) {
                 html = hbsTemplate(model);
 
 
-                this.rootNode.id = this.objectId();
-                this.rootNode.classList.add('yoru-component');
+                rootNode.id = this.objectId();
+                rootNode.classList.add('yoru-component');
                 this.get('classes').forEach(function (kl) {
-                  _this2.rootNode.classList.add(kl);
+                  rootNode.classList.add(kl);
                 });
                 return _context.abrupt('return', html);
 
@@ -14625,8 +14624,8 @@ var ShadowMaker = function (_YoruObject) {
 
     var _this = _possibleConstructorReturn(this, (ShadowMaker.__proto__ || Object.getPrototypeOf(ShadowMaker)).apply(this, arguments));
 
-    _this.consumer = consumer;
-    _this.components = {};
+    _this.set('consumer', consumer);
+    _this.set('components', {});
     _this.componentInstances = {};
     _this.globalStyles = document.getElementById('global-styles');
 
@@ -14673,7 +14672,7 @@ var ShadowMaker = function (_YoruObject) {
                 _komono.Logger.debug('Now parsing children of ' + (rootNode.tagName || rootNode.host.tagName));
 
                 _context5.next = 3;
-                return Promise.all(this.consumer.each().map(function () {
+                return Promise.all(this.get('consumer').each().map(function () {
                   var _ref4 = _asyncToGenerator(regeneratorRuntime.mark(function _callee4(_ref5) {
                     var _ref6 = _slicedToArray(_ref5, 2),
                         name = _ref6[0],
@@ -14700,7 +14699,7 @@ var ShadowMaker = function (_YoruObject) {
                                   while (1) {
                                     switch (_context3.prev = _context3.next) {
                                       case 0:
-                                        componentData = _this2.components[name];
+                                        componentData = _this2.get('components')[name];
 
                                         if (componentData) {
                                           _context3.next = 6;
@@ -14718,7 +14717,7 @@ var ShadowMaker = function (_YoruObject) {
                                         return __insertComponent(element, template, instance, _this2.globalStyles);
 
                                       case 10:
-                                        _this2.consumer.app.documents.push(element.shadowRoot);
+                                        _this2.get('consumer.app.documents').push(element.shadowRoot);
                                         _context3.next = 13;
                                         return _this2.parseDOM(element.shadowRoot);
 
@@ -14790,7 +14789,7 @@ var ShadowMaker = function (_YoruObject) {
 
         return _class;
       }(_component2.default);
-      this.components[name] = {
+      this.get('components')[name] = {
         constructor: ctor[name],
         name: name,
         options: opts
@@ -14842,7 +14841,7 @@ var TemplateConsumer = function (_YoruObject) {
 
     var _this = _possibleConstructorReturn(this, (TemplateConsumer.__proto__ || Object.getPrototypeOf(TemplateConsumer)).apply(this, arguments));
 
-    _this.app = app;
+    _this.set('app', app);
     _this.templates = {};
 
     if (!('content' in document.createElement('template'))) {
@@ -14889,8 +14888,8 @@ var TemplateConsumer = function (_YoruObject) {
       });
     }
   }, {
-    key: 'get',
-    value: function get(templateName) {
+    key: 'getTemplate',
+    value: function getTemplate(templateName) {
       return this.templates[templateName];
     }
   }, {

@@ -10,11 +10,6 @@ export default class YoruObject extends ProxyObject {
     super();
     this.__yoru__ = true;
     this.__objectId__ = Shortid.generate();
-
-    this.__initProxyProperties({
-      objectId: this.objectId(),
-      name: this.getName(),
-    });
   }
 
   objectId() {

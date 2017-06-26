@@ -10,7 +10,7 @@ const PREFIX = 'yoru-';
 export default class TemplateConsumer extends YoruObject {
   constructor(app) {
     super(...arguments);
-    this.app = app;
+    this.set('app', app);
     this.templates = {};
 
     if (!('content' in document.createElement('template'))) {
@@ -64,7 +64,7 @@ export default class TemplateConsumer extends YoruObject {
     });
   }
 
-  get(templateName) {
+  getTemplate(templateName) {
     return this.templates[templateName];
   }
 

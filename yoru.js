@@ -43,7 +43,7 @@ class Yoru extends YoruObject {
     Logger.style(`夜 ー ＹＯＲＵ ー Version ${Yoru.VERSION}`, YORU_INFO_STYLE);
     Logger.raw('');
 
-    this.documents = Yoru.A(document);
+    this.set('documents', Yoru.A(document));
     this.templateConsumer = new TemplateConsumer(this);
     this.shadowMaker = new ShadowMaker(this.templateConsumer);
     this.preloader = new Preloader();

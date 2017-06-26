@@ -4,16 +4,25 @@
 
 import { Logger } from 'yoru/komono';
 
+const PROXY_LOG_STYLE = 'color: #999;';
+
 const ProxyHandler = {
   get: (target, prop) => {
-    console.log(`GET ${target.name}.${prop}`);
+    Logger.style(`[ProxyObject] GET ${prop}`, PROXY_LOG_STYLE);
     if (prop in target) {
       return target[prop];
     }
   },
 
   set: (target, prop, value) => {
-    console.log(`SET ${target.name}.${prop} => ${value}`);
+    let displayValue = value;
+    if (typeof value === typeof (() => {})) {
+      displayValue = '[Function]';
+    }
+    Logger.style(
+      `[ProxyObject] SET ${prop} => ${displayValue}`,
+      PROXY_LOG_STYLE
+    );
     target[prop] = value;
     return true;
   },
@@ -36,37 +45,37 @@ export default class ProxyObject {
 
   get(prop) {
     const path = prop.split('.');
-    let obj = this.__proxy__;
+    let context = this.__proxy__;
 
     path.forEach(prop => {
-      obj = (obj || {})[prop];
-      if (typeof obj === typeof (() => {})) {
-        obj = obj.call(this);
+      context = (context.__proxy__ || context || {})[prop];
+      if (typeof context === typeof (() => {})) {
+        context = context.call(this);
       }
     });
 
-    return obj;
+    return context;
   }
 
   set(prop, value) {
     const path = prop.split('.');
     const lastDepth = path.length - 1;
-    let obj = this.__proxy__;
+    let context = this.__proxy__;
 
     for (let depth = 0; depth < lastDepth; depth++) {
-      let nextStep = obj[path[depth]];
+      let nextStep = context[path[depth]];
       if (depth < lastDepth && !nextStep.__yoru__) {
         Logger.error(
-          `[YoruObject#set] Cannot dig deeper! Property \`${path[
+          `[ProxyObject#set] Cannot dig deeper! Property \`${path[
             depth
           ]}\` in path \`${prop}\` is not an object.`
         );
         return false;
       }
-      obj = nextStep;
+      context = nextStep;
     }
 
-    obj[path[lastDepth]] = value;
+    context[path[lastDepth]] = value;
     return true;
   }
 }
