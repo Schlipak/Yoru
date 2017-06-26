@@ -8621,13 +8621,14 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 var ProxyHandler = {
   get: function get(target, prop) {
-    console.log('GET ' + target + '.' + prop);
+    console.log('GET ' + target.name + '.' + prop);
     if (prop in target) {
       return target[prop];
     }
   },
 
   set: function set(target, prop, value) {
+    console.log('SET ' + target.name + '.' + prop + ' => ' + value);
     target[prop] = value;
     return true;
   }
@@ -8637,7 +8638,7 @@ var ProxyObject = function () {
   function ProxyObject() {
     _classCallCheck(this, ProxyObject);
 
-    this.__proxyObject = new Proxy({}, ProxyHandler);
+    this.__proxy__ = new Proxy({}, ProxyHandler);
   }
 
   _createClass(ProxyObject, [{
@@ -8646,7 +8647,7 @@ var ProxyObject = function () {
       if (init) {
         for (var prop in init) {
           if (init.hasOwnProperty(prop)) {
-            this.__proxyObject[prop] = init[prop];
+            this.__proxy__[prop] = init[prop];
           }
         }
       }
@@ -8657,7 +8658,7 @@ var ProxyObject = function () {
       var _this = this;
 
       var path = prop.split('.');
-      var obj = this.__proxyObject;
+      var obj = this.__proxy__;
 
       path.forEach(function (prop) {
         obj = (obj || {})[prop];
@@ -8673,7 +8674,7 @@ var ProxyObject = function () {
     value: function set(prop, value) {
       var path = prop.split('.');
       var lastDepth = path.length - 1;
-      var obj = this.__proxyObject;
+      var obj = this.__proxy__;
 
       for (var depth = 0; depth < lastDepth; depth++) {
         var nextStep = obj[path[depth]];
