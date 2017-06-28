@@ -12,7 +12,7 @@ export default class Component extends YoruObject {
     this.name = name;
     this.opts = opts;
 
-    this.classes = [];
+    this.set('classes', []);
   }
 
   model() {
@@ -21,6 +21,10 @@ export default class Component extends YoruObject {
 
   getName() {
     return `Component-${this.name}`;
+  }
+
+  toString() {
+    return `<#${this.getName()} ${this.objectId()}>`;
   }
 
   consumeAttributeData() {
@@ -47,19 +51,19 @@ export default class Component extends YoruObject {
       {
         __component__: this,
         __name__: this.getName(),
-        __id__: this.get('objectId'),
+        __id__: this.objectId(),
         __host__: this.get('rootNode'),
-        __shadow__: this.get('shadow')
+        __shadow__: this.get('shadow'),
       },
       this.consumeAttributeData()
     );
-    let hbsTemplate = await Handlebars.compile(template.innerHTML);
-    let html = hbsTemplate(model);
+    const hbsTemplate = await Handlebars.compile(template.innerHTML);
+    const html = hbsTemplate(model);
 
-    this.rootNode.id = this.objectId();
-    this.rootNode.classList.add('yoru-component');
+    rootNode.id = this.objectId();
+    rootNode.classList.add('yoru-component');
     this.get('classes').forEach(kl => {
-      this.rootNode.classList.add(kl);
+      rootNode.classList.add(kl);
     });
     return html;
   }
