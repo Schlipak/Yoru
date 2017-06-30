@@ -5,6 +5,7 @@
 const Shortid = require('shortid');
 
 import ProxyObject from 'yoru/internals/proxy-object';
+import { readonly } from 'core-decorators';
 
 export default class YoruObject extends ProxyObject {
   constructor() {
@@ -13,10 +14,12 @@ export default class YoruObject extends ProxyObject {
     this.__objectId__ = Shortid.generate();
   }
 
+  @readonly
   objectId() {
     return `Yoru-${this.__objectId__}`;
   }
 
+  @readonly
   getName() {
     return this.constructor.name;
   }
