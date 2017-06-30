@@ -9356,14 +9356,15 @@ var ProxyHandler = {
     }
   },
 
-  set: function set(target, prop, value) {
-    var displayValue = value;
-    if ((typeof value === 'undefined' ? 'undefined' : _typeof(value)) === _typeof(function () {})) {
+  set: function set(target, prop, newValue) {
+    var oldValue = target[prop];
+    var displayValue = newValue;
+    if ((typeof newValue === 'undefined' ? 'undefined' : _typeof(newValue)) === _typeof(function () {})) {
       displayValue = '[Function]';
     }
     _utils.Logger.style('[ProxyObject] SET ' + prop + ' => ' + displayValue, PROXY_LOG_STYLE);
-    target[prop] = value;
-    target.__self__.notifyPropertyChanged(prop);
+    target[prop] = newValue;
+    target.__self__.notifyPropertyChanged(prop, oldValue, newValue);
     return true;
   }
 };
@@ -9375,6 +9376,7 @@ var ProxyObject = function () {
     this.__proxy__ = new Proxy({
       __self__: this
     }, ProxyHandler);
+    this.__watchCallbacks__ = {};
   }
 
   _createClass(ProxyObject, [{
@@ -9390,8 +9392,11 @@ var ProxyObject = function () {
     }
   }, {
     key: 'notifyPropertyChanged',
-    value: function notifyPropertyChanged(prop) {
+    value: function notifyPropertyChanged(prop, oldValue, newValue) {
       _utils.Logger.style('[NOTIFY] ' + this + '.' + prop + ' changed', PROXY_NOTIFY_STYLE);
+      (this.__watchCallbacks__[prop] || []).forEach(function (callback) {
+        return callback(prop, oldValue, newValue);
+      });
     }
   }, {
     key: 'get',
@@ -9428,6 +9433,14 @@ var ProxyObject = function () {
 
       context[path[lastDepth]] = value;
       return true;
+    }
+  }, {
+    key: 'watch',
+    value: function watch(prop, callback) {
+      if (!this.__watchCallbacks__[prop]) {
+        this.__watchCallbacks__[prop] = [];
+      }
+      !this.__watchCallbacks__[prop].push(callback);
     }
   }]);
 

@@ -15,17 +15,18 @@ const ProxyHandler = {
     }
   },
 
-  set: (target, prop, value) => {
-    let displayValue = value;
-    if (typeof value === typeof (() => {})) {
+  set: (target, prop, newValue) => {
+    const oldValue = target[prop];
+    let displayValue = newValue;
+    if (typeof newValue === typeof (() => {})) {
       displayValue = '[Function]';
     }
     Logger.style(
       `[ProxyObject] SET ${prop} => ${displayValue}`,
       PROXY_LOG_STYLE
     );
-    target[prop] = value;
-    target.__self__.notifyPropertyChanged(prop);
+    target[prop] = newValue;
+    target.__self__.notifyPropertyChanged(prop, oldValue, newValue);
     return true;
   },
 };
@@ -38,6 +39,7 @@ export default class ProxyObject {
       },
       ProxyHandler
     );
+    this.__watchCallbacks__ = {};
   }
 
   __initProxyProperties(init) {
@@ -50,8 +52,10 @@ export default class ProxyObject {
     }
   }
 
-  notifyPropertyChanged(prop) {
+  notifyPropertyChanged(prop, oldValue, newValue) {
     Logger.style(`[NOTIFY] ${this}.${prop} changed`, PROXY_NOTIFY_STYLE);
+    (this.__watchCallbacks__[prop] || [])
+      .forEach(callback => callback(prop, oldValue, newValue));
   }
 
   get(prop) {
@@ -88,5 +92,12 @@ export default class ProxyObject {
 
     context[path[lastDepth]] = value;
     return true;
+  }
+
+  watch(prop, callback) {
+    if (!this.__watchCallbacks__[prop]) {
+      this.__watchCallbacks__[prop] = [];
+    }
+    !this.__watchCallbacks__[prop].push(callback);
   }
 }
