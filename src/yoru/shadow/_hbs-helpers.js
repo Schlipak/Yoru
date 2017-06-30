@@ -47,4 +47,24 @@ export default function registerHelpers(Handlebars) {
   Handlebars.registerHelper('lower', function(value) {
     return Scribe.lower(value);
   });
+
+  Handlebars.registerHelper('or', function() {
+    let firstTruthy = null;
+    [...arguments].forEach(arg => {
+      if (arg && !firstTruthy) {
+        firstTruthy = arg;
+      }
+    });
+    return firstTruthy;
+  });
+
+  Handlebars.registerHelper('and', function() {
+    let lastTruthy = null;
+    [...arguments].forEach(arg => {
+      if (arg) {
+        lastTruthy = arg;
+      }
+    });
+    return lastTruthy;
+  });
 }

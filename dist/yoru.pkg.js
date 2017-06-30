@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 351);
+/******/ 	return __webpack_require__(__webpack_require__.s = 353);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -1487,7 +1487,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.Run = exports.Scribe = exports.Logger = undefined;
 
-var _all = __webpack_require__(347);
+var _all = __webpack_require__(349);
 
 exports.Logger = _all.Logger;
 exports.Scribe = _all.Scribe;
@@ -2186,7 +2186,7 @@ var _object2 = _interopRequireDefault(_object);
 
 var _utils = __webpack_require__(41);
 
-var _shadow = __webpack_require__(341);
+var _shadow = __webpack_require__(343);
 
 var _internals = __webpack_require__(337);
 
@@ -2242,6 +2242,8 @@ var Yoru = (_temp = _class = function (_YoruObject) {
     _this.shadowMaker = new _shadow.ShadowMaker(_this.templateConsumer);
     _this.preloader = new _internals.Preloader();
     _this.preloader.init();
+
+    _this.__registerBuiltins();
     return _this;
   }
 
@@ -2291,6 +2293,22 @@ var Yoru = (_temp = _class = function (_YoruObject) {
       var opts = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
       this.shadowMaker.registerComponent(name, opts);
+    }
+  }, {
+    key: '__registerBuiltins',
+    value: function __registerBuiltins() {
+      for (var name in _internals.Builtins.default) {
+        if (_internals.Builtins.default.hasOwnProperty(name)) {
+          var builtin = _internals.Builtins.default[name];
+
+          this.registerComponent.apply(this, _toConsumableArray(builtin.component));
+          var builtinTemplateContainer = document.createElement('template');
+          builtinTemplateContainer.id = 'yoru-' + builtin.component[0];
+          builtinTemplateContainer.classList.add('yoru-builtin-component');
+          builtinTemplateContainer.innerHTML = builtin.template;
+          document.body.insertBefore(builtinTemplateContainer, document.body.firstChild);
+        }
+      }
     }
   }]);
 
@@ -15862,13 +15880,14 @@ exports.YoruArray = _array2.default; //
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.ProxyObject = exports.Preloader = exports.Listener = undefined;
+exports.Builtins = exports.ProxyObject = exports.Preloader = exports.Listener = undefined;
 
 var _all = __webpack_require__(338);
 
 exports.Listener = _all.Listener;
 exports.Preloader = _all.Preloader;
-exports.ProxyObject = _all.ProxyObject; // Import helper for module Internals
+exports.ProxyObject = _all.ProxyObject;
+exports.Builtins = _all.Builtins; // Import helper for module Internals
 
 /***/ }),
 /* 338 */
@@ -15880,13 +15899,13 @@ exports.ProxyObject = _all.ProxyObject; // Import helper for module Internals
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.ProxyObject = exports.Preloader = exports.Listener = undefined;
+exports.Builtins = exports.ProxyObject = exports.Preloader = exports.Listener = undefined;
 
-var _listener = __webpack_require__(339);
+var _listener = __webpack_require__(341);
 
 var _listener2 = _interopRequireDefault(_listener);
 
-var _preloader = __webpack_require__(340);
+var _preloader = __webpack_require__(342);
 
 var _preloader2 = _interopRequireDefault(_preloader);
 
@@ -15894,16 +15913,86 @@ var _proxyObject = __webpack_require__(125);
 
 var _proxyObject2 = _interopRequireDefault(_proxyObject);
 
+var _all = __webpack_require__(339);
+
+var Builtins = _interopRequireWildcard(_all);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.Listener = _listener2.default;
-exports.Preloader = _preloader2.default;
-exports.ProxyObject = _proxyObject2.default; //
+//
 // 夜/Internals
 //
 
+exports.Listener = _listener2.default;
+exports.Preloader = _preloader2.default;
+exports.ProxyObject = _proxyObject2.default;
+exports.Builtins = Builtins;
+
 /***/ }),
 /* 339 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _linkTo = __webpack_require__(340);
+
+var _linkTo2 = _interopRequireDefault(_linkTo);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = { LinkTo: _linkTo2.default }; //
+// 夜/Internals/Builtins
+//
+
+/***/ }),
+/* 340 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+//
+// 夜/Internals/Builtins/LinkTo
+//
+
+exports.default = {
+  component: ['LinkTo', {
+    builtinClasses: ['yoru-builtin', 'yoru-link-to'],
+
+    model: function model() {
+      return {
+        builtinClasses: this.get('builtinClasses').join(' ')
+      };
+    },
+    afterAppend: function afterAppend() {
+      var link = this.get('shadow').querySelector('a');
+      link.addEventListener('click', function () {
+        // This was relevant in an attempt at routing, kept for later use
+        // Routing will be implemented after a proper render cycle is defined
+        //
+        // href was also added to the template so this can be used as a
+        // regular HTML link in the meantime
+        //
+        // const route = this.get('attrs.route');
+        // this.get('app').routeTo(route);
+      });
+    }
+  }],
+  template: '\n    <style media="screen">\n      a.yoru-link-to { cursor: pointer }\n    </style>\n    <a href={{href}}\n      class="{{builtinClasses}} {{class}}"\n      title="{{or title href}}"\n      target="{{if outgoing \'_blank\'}}"\n      rel="{{if outgoing \'noreferrer noopener\'}}"\n    >\n      {{yield}}\n    </a>\n  '
+};
+
+/***/ }),
+/* 341 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15961,7 +16050,7 @@ var Listener = function (_YoruObject) {
 exports.default = Listener;
 
 /***/ }),
-/* 340 */
+/* 342 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16041,7 +16130,7 @@ var Preloader = function (_YoruObject) {
 exports.default = Preloader;
 
 /***/ }),
-/* 341 */
+/* 343 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16052,13 +16141,13 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.TemplateConsumer = exports.ShadowMaker = undefined;
 
-var _all = __webpack_require__(342);
+var _all = __webpack_require__(344);
 
 exports.ShadowMaker = _all.ShadowMaker;
 exports.TemplateConsumer = _all.TemplateConsumer; // Import helper for module Shadow
 
 /***/ }),
-/* 342 */
+/* 344 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16069,11 +16158,11 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.TemplateConsumer = exports.ShadowMaker = undefined;
 
-var _shadowMaker = __webpack_require__(345);
+var _shadowMaker = __webpack_require__(347);
 
 var _shadowMaker2 = _interopRequireDefault(_shadowMaker);
 
-var _templateConsumer = __webpack_require__(346);
+var _templateConsumer = __webpack_require__(348);
 
 var _templateConsumer2 = _interopRequireDefault(_templateConsumer);
 
@@ -16087,7 +16176,7 @@ exports.ShadowMaker = _shadowMaker2.default;
 exports.TemplateConsumer = _templateConsumer2.default;
 
 /***/ }),
-/* 343 */
+/* 345 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16148,10 +16237,30 @@ function registerHelpers(Handlebars) {
   Handlebars.registerHelper('lower', function (value) {
     return _utils.Scribe.lower(value);
   });
+
+  Handlebars.registerHelper('or', function () {
+    var firstTruthy = null;
+    [].concat(Array.prototype.slice.call(arguments)).forEach(function (arg) {
+      if (arg && !firstTruthy) {
+        firstTruthy = arg;
+      }
+    });
+    return firstTruthy;
+  });
+
+  Handlebars.registerHelper('and', function () {
+    var lastTruthy = null;
+    [].concat(Array.prototype.slice.call(arguments)).forEach(function (arg) {
+      if (arg) {
+        lastTruthy = arg;
+      }
+    });
+    return lastTruthy;
+  });
 }
 
 /***/ }),
-/* 344 */
+/* 346 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16298,7 +16407,7 @@ hooks.forEach(function (hook) {
 });
 
 /***/ }),
-/* 345 */
+/* 347 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16317,7 +16426,7 @@ var _object = __webpack_require__(47);
 
 var _object2 = _interopRequireDefault(_object);
 
-var _component = __webpack_require__(344);
+var _component = __webpack_require__(346);
 
 var _component2 = _interopRequireDefault(_component);
 
@@ -16325,7 +16434,7 @@ var _utils = __webpack_require__(41);
 
 var _extensions = __webpack_require__(63);
 
-var _hbsHelpers = __webpack_require__(343);
+var _hbsHelpers = __webpack_require__(345);
 
 var _hbsHelpers2 = _interopRequireDefault(_hbsHelpers);
 
@@ -16567,6 +16676,7 @@ var ShadowMaker = function (_YoruObject) {
     value: function registerComponent(name) {
       var opts = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
+      name = _utils.Scribe.constantize(name);
       _utils.Logger.debug('Registering component ' + name);
       var ctor = {};
       ctor[name] = function (_Component) {
@@ -16601,7 +16711,7 @@ var ShadowMaker = function (_YoruObject) {
 exports.default = ShadowMaker;
 
 /***/ }),
-/* 346 */
+/* 348 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16713,7 +16823,7 @@ var TemplateConsumer = function (_YoruObject) {
 exports.default = TemplateConsumer;
 
 /***/ }),
-/* 347 */
+/* 349 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16724,15 +16834,15 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.Run = exports.Scribe = exports.Logger = undefined;
 
-var _logger = __webpack_require__(348);
+var _logger = __webpack_require__(350);
 
 var _logger2 = _interopRequireDefault(_logger);
 
-var _scribe = __webpack_require__(350);
+var _scribe = __webpack_require__(352);
 
 var _scribe2 = _interopRequireDefault(_scribe);
 
-var _run = __webpack_require__(349);
+var _run = __webpack_require__(351);
 
 var _run2 = _interopRequireDefault(_run);
 
@@ -16745,7 +16855,7 @@ exports.Run = _run2.default; //
 //
 
 /***/ }),
-/* 348 */
+/* 350 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16830,7 +16940,7 @@ loggingModes.forEach(function (mode) {
 exports.default = Logger;
 
 /***/ }),
-/* 349 */
+/* 351 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16919,7 +17029,7 @@ var Run = {
 exports.default = Run;
 
 /***/ }),
-/* 350 */
+/* 352 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16951,6 +17061,12 @@ var Scribe = {
   capitalize: function capitalize() {
     var str = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
 
+    return Scribe.upper(str.charAt(0)) + str.slice(1);
+  },
+
+  capitalizeStrict: function capitalizeStrict() {
+    var str = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
+
     return Scribe.upper(str.charAt(0)) + Scribe.lower(str.slice(1));
   },
 
@@ -16966,7 +17082,7 @@ var Scribe = {
   camelize: function camelize() {
     var str = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
 
-    var words = str.split(/[-_\s]/);
+    var words = str.split(/[-_\s]|(?=[A-Z])/);
     return words.map(function (word) {
       return Scribe.capitalize(Scribe.lower(word));
     }).join('');
@@ -16979,6 +17095,12 @@ var Scribe = {
     return words.map(function (word) {
       return Scribe.lower(word);
     }).join('-');
+  },
+
+  constantize: function constantize() {
+    var str = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
+
+    return Scribe.capitalize(Scribe.camelize(str));
   }
 }; //
 // 夜/Utils/Scribe
@@ -16987,7 +17109,7 @@ var Scribe = {
 exports.default = Scribe;
 
 /***/ }),
-/* 351 */
+/* 353 */
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(92);

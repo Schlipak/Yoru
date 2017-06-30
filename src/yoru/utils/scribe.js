@@ -14,6 +14,10 @@ const Scribe = {
   },
 
   capitalize: function(str = '') {
+    return Scribe.upper(str.charAt(0)) + str.slice(1);
+  },
+
+  capitalizeStrict: function(str = '') {
     return Scribe.upper(str.charAt(0)) + Scribe.lower(str.slice(1));
   },
 
@@ -27,7 +31,7 @@ const Scribe = {
   },
 
   camelize: function(str = '') {
-    let words = str.split(/[-_\s]/);
+    let words = str.split(/[-_\s]|(?=[A-Z])/);
     return words
       .map(word => {
         return Scribe.capitalize(Scribe.lower(word));
@@ -42,6 +46,10 @@ const Scribe = {
         return Scribe.lower(word);
       })
       .join('-');
+  },
+
+  constantize: function(str = '') {
+    return Scribe.capitalize(Scribe.camelize(str));
   },
 };
 

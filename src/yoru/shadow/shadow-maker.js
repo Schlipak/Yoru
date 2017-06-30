@@ -119,6 +119,7 @@ export default class ShadowMaker extends YoruObject {
   }
 
   registerComponent(name, opts = {}) {
+    name = Scribe.constantize(name);
     Logger.debug(`Registering component ${name}`);
     let ctor = {};
     ctor[name] = class extends Component {
