@@ -22,8 +22,8 @@ const copySkeletonFiles = async function copySkeletonFiles(name) {
   );
   const $ = cheerio.load(html, { normalizeWhitespace: true });
   $('title').text(`ＹＯＲＵ ー ${Scribe.constantize(name)}`);
-  $('hello-yoru').attr('y:data:appname', Scribe.constantize(name));
-  $('hello-yoru').attr('y:data:filename', name);
+  $('hello-yoru').attr('y:appname', Scribe.constantize(name));
+  $('hello-yoru').attr('y:filename', name);
   $('#skeleton-entry-point').attr('src', `./${name}.js`);
   $('#skeleton-entry-point').removeAttr('id');
   fs.appendFileSync('app/index.html', $.html());
@@ -78,8 +78,8 @@ const createPackageJson = async function createPackageJson(name) {
 
 const getManagerOpts = function getManagerOpts(manager) {
   return {
-    npm: ['install'],
-    yarn: [],
+    npm: ['install', '--production'],
+    yarn: ['install', '--production'],
   }[manager];
 };
 

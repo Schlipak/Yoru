@@ -156,8 +156,8 @@ var createPackageJson = function () {
 
 var getManagerOpts = function getManagerOpts(manager) {
   return {
-    npm: ['install'],
-    yarn: []
+    npm: ['install', '--production'],
+    yarn: ['install', '--production']
   }[manager];
 };
 
