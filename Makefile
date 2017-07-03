@@ -26,7 +26,7 @@ babel: 		clean
 					@$(ECHO) "[\033[1;32mOK\033[0m] All done!"
 
 bin:
-					@make -C dist/
+					@make -C bin/
 
 clean:
 					@$(ECHO) "[\033[1;31mRM\033[0m] Clean dist/ tmp/"
