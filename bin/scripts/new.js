@@ -35,8 +35,8 @@ var copySkeletonFiles = function () {
             $ = cheerio.load(html, { normalizeWhitespace: true });
 
             $('title').text('\uFF39\uFF2F\uFF32\uFF35 \u30FC ' + Scribe.constantize(name));
-            $('hello-yoru').attr('y:data:appname', Scribe.constantize(name));
-            $('hello-yoru').attr('y:data:filename', name);
+            $('hello-yoru').attr('y:appname', Scribe.constantize(name));
+            $('hello-yoru').attr('y:filename', name);
             $('#skeleton-entry-point').attr('src', './' + name + '.js');
             $('#skeleton-entry-point').removeAttr('id');
             fs.appendFileSync('app/index.html', $.html());
