@@ -41,6 +41,18 @@ const copySkeletonFiles = async function copySkeletonFiles(name) {
   );
   strmOut = fs.createWriteStream('app/templates/_all.html');
   strmIn.pipe(strmOut);
+
+  // favicons
+  strmIn = fs.createReadStream(
+    path.join(__dirname, '/../assets/favicon.ico')
+  );
+  strmOut = fs.createWriteStream('assets/favicon.ico');
+  strmIn.pipe(strmOut);
+  strmIn = fs.createReadStream(
+    path.join(__dirname, '/../assets/favicon.png')
+  );
+  strmOut = fs.createWriteStream('assets/favicon.png');
+  strmIn.pipe(strmOut);
 };
 
 const createSkeleton = async function createSkeleton(name) {

@@ -51,7 +51,15 @@ var copySkeletonFiles = function () {
             strmOut = fs.createWriteStream('app/templates/_all.html');
             strmIn.pipe(strmOut);
 
-          case 18:
+            // favicons
+            strmIn = fs.createReadStream(path.join(__dirname, '/../assets/favicon.ico'));
+            strmOut = fs.createWriteStream('assets/favicon.ico');
+            strmIn.pipe(strmOut);
+            strmIn = fs.createReadStream(path.join(__dirname, '/../assets/favicon.png'));
+            strmOut = fs.createWriteStream('assets/favicon.png');
+            strmIn.pipe(strmOut);
+
+          case 24:
           case 'end':
             return _context.stop();
         }
