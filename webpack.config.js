@@ -1,19 +1,21 @@
 // Webpack config
 
-const Webpack = require('webpack');
-const Path    = require('path');
+const webpack = require('webpack');
+const path = require('path');
 
 module.exports = {
+  target: 'web',
   entry: ['babel-polyfill', './tmp/yoru.js'],
   resolve: {
     alias: {
       handlebars: 'handlebars/dist/handlebars.js',
     },
-    modules: [Path.resolve(__dirname, 'tmp'), 'node_modules'],
+    modules: [path.resolve(__dirname, 'tmp'), 'node_modules'],
   },
   plugins: [
-    new Webpack.DefinePlugin({
+    new webpack.DefinePlugin({
       VERSION: JSON.stringify(require('./package.json').version),
     }),
+    new webpack.IgnorePlugin(/vertx/),
   ],
 };

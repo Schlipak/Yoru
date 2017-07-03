@@ -4,14 +4,15 @@
 
 require('babel-core/register');
 require('babel-polyfill');
+require('@webcomponents/webcomponentsjs/webcomponents-lite');
 
 const Handlebars = require('handlebars');
 
-import { YoruArray } from 'yoru/tsuika';
+import { YoruArray } from 'yoru/extensions';
 import YoruObject from 'yoru/object';
-import { Logger, Scribe, Run } from 'yoru/komono';
-import { ShadowMaker, TemplateConsumer } from 'yoru/kage';
-import { Preloader } from 'yoru/kokoro';
+import { Logger, Scribe, Run } from 'yoru/utils';
+import { ShadowMaker, TemplateConsumer } from 'yoru/shadow';
+import { Preloader, Builtins } from 'yoru/internals';
 
 const YORU_INFO_STYLE = `background: #000;
   color: #FFF;
@@ -43,11 +44,13 @@ class Yoru extends YoruObject {
     Logger.style(`夜 ー ＹＯＲＵ ー Version ${Yoru.VERSION}`, YORU_INFO_STYLE);
     Logger.raw('');
 
-    this.documents = Yoru.A(document);
+    this.set('documents', Yoru.A(document));
     this.templateConsumer = new TemplateConsumer(this);
     this.shadowMaker = new ShadowMaker(this.templateConsumer);
     this.preloader = new Preloader();
     this.preloader.init();
+
+    this.__registerBuiltins();
   }
 
   async boot() {
@@ -68,6 +71,24 @@ class Yoru extends YoruObject {
 
   registerComponent(name, opts = {}) {
     this.shadowMaker.registerComponent(name, opts);
+  }
+
+  __registerBuiltins() {
+    for (let name in Builtins.default) {
+      if (Builtins.default.hasOwnProperty(name)) {
+        const builtin = Builtins.default[name];
+
+        this.registerComponent(...builtin.component);
+        const builtinTemplateContainer = document.createElement('template');
+        builtinTemplateContainer.id = `yoru-${builtin.component[0]}`;
+        builtinTemplateContainer.classList.add('yoru-builtin-component');
+        builtinTemplateContainer.innerHTML = builtin.template;
+        document.body.insertBefore(
+          builtinTemplateContainer,
+          document.body.firstChild
+        );
+      }
+    }
   }
 }
 

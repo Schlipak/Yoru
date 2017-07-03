@@ -37,6 +37,7 @@
     }
   </style>
   <main>
+    <h1>{{testParam}}</h1>
     <h2>Usage</h2>
     <ul>
       <li>
@@ -49,7 +50,7 @@
         Script and fire up the app
       </li>
     </ul>
-    <code-block y:data:title="app.js">const initApp = function initApp() {
+    <code-block y:title="app.js">const initApp = function initApp() {
   const app = new Yoru();
 
   app.registerComponent('MyComponent', {
@@ -76,7 +77,7 @@ document.addEventListener('DOMContentLoaded', initApp);</code-block>
       Templates are defined using the HTML5 <code>&lt;template&gt;</code> element. These encapsulate your markup, and can also define styles specific to themselves.
     </p>
     <p>
-      Templates are rendered using <a href="http://handlebarsjs.com/">Handlebars</a>. The context components receive corresponds to the return value of the <code>model()</code> method, the passed parameters to the component element, plus some useful automatic builtin variables.
+      Templates are rendered using <link-to y:href="http://handlebarsjs.com/" y:outgoing="true" y:title="Handlebars">Handlebars</link-to>. The context components receive corresponds to the return value of the <code>model()</code> method, the passed parameters to the component element, plus some useful automatic builtin variables.
       <ul>
         <li>
           <code>__component__</code>: A reference to the component itself
@@ -95,7 +96,7 @@ document.addEventListener('DOMContentLoaded', initApp);</code-block>
         </li>
       </ul>
     </p>
-    <code-block y:data:title="my-component.html" y:data:lang="html">&lt;!-- The template ID must be the dasherized component name prefixed by `yoru-' --&gt;
+    <code-block y:title="my-component.html" y:lang="html">&lt;!-- The template ID must be the dasherized component name prefixed by `yoru-' --&gt;
 &lt;template id="yoru-my-component"&gt;
   &lt;style media="screen"&gt;
     /* References the element the component is rendered in (parent of shadow) */
@@ -103,9 +104,23 @@ document.addEventListener('DOMContentLoaded', initApp);</code-block>
       /* ... */
     }
   &lt;/style&gt;
-  &lt;h1&gt;MyComponent for app {{{appName}}}&lt;/h1&gt;
+  &lt;h1&gt;MyComponent for app "{{{appName}}}"&lt;/h1&gt;
   &lt;p&gt;{{{content}}}&lt;/p&gt;
 &lt;/template&gt;</code-block>
+    <p>
+      Now use your component
+    </p>
+    <code-block y:title="index.html" y:lang="html">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;meta charset="utf-8"&gt;
+    &lt;title&gt;&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;!-- Variables must be dasherized in the template --&gt;
+    &lt;my-component y:app-name="My new Yoru app" y:content="Hello world!"&gt;&lt;/my-component&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</code-block>
 
     <h2>Defining custom helpers</h2>
     <p>
@@ -123,6 +138,9 @@ document.addEventListener('DOMContentLoaded', initApp);</code-block>
       </li>
       <li>
         Components cannot encapsulate scripts. Yep, I know, that's sad. But the fact is scripts won't run when inserted in the DOM by Yoru as of today. Efforts will be done to fix this shortcoming. In the meantime, you can script components by overriding the <code>afterAppend</code> method. You can access the component's tree via <code>this.get('shadow');</code>.
+      </li>
+      <li>
+        No internal routing yet. This is on the roadmap and is a very high priority feature. However, this will not be added until the whole rendering system is re-written, as it is not suitable for multi page applications as of today.
       </li>
     </ul>
   </main>

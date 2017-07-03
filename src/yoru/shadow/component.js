@@ -1,9 +1,10 @@
 //
-// 夜/影/component.js
+// 夜/Shadow/Component
 //
 
 import YoruObject from 'yoru/object';
-import { YoruArray } from 'yoru/tsuika';
+import { YoruArray } from 'yoru/extensions';
+import { Scribe } from 'yoru/utils';
 const Handlebars = require('handlebars');
 
 export default class Component extends YoruObject {
@@ -12,7 +13,7 @@ export default class Component extends YoruObject {
     this.name = name;
     this.opts = opts;
 
-    this.classes = [];
+    this.set('classes', []);
   }
 
   model() {
@@ -23,15 +24,19 @@ export default class Component extends YoruObject {
     return `Component-${this.name}`;
   }
 
+  toString() {
+    return `<#${this.getName()} ${this.objectId()}>`;
+  }
+
   consumeAttributeData() {
     const rootNode = this.get('rootNode');
-    const reg = /y:data:(.+)/;
+    const reg = /y:(.+)/;
     let attrData = {};
 
     YoruArray.from(rootNode.attributes).forEach(attr => {
       const match = reg.exec(attr.name);
       if (match) {
-        attrData[match[1]] = attr.value;
+        attrData[Scribe.camelize(match[1])] = attr.value;
       }
     });
 
@@ -47,19 +52,19 @@ export default class Component extends YoruObject {
       {
         __component__: this,
         __name__: this.getName(),
-        __id__: this.get('objectId'),
+        __id__: this.objectId(),
         __host__: this.get('rootNode'),
-        __shadow__: this.get('shadow')
+        __shadow__: this.get('shadow'),
       },
       this.consumeAttributeData()
     );
-    let hbsTemplate = await Handlebars.compile(template.innerHTML);
-    let html = hbsTemplate(model);
+    const hbsTemplate = await Handlebars.compile(template.innerHTML);
+    const html = hbsTemplate(model);
 
-    this.rootNode.id = this.objectId();
-    this.rootNode.classList.add('yoru-component');
+    rootNode.id = this.objectId();
+    rootNode.classList.add('yoru-component');
     this.get('classes').forEach(kl => {
-      this.rootNode.classList.add(kl);
+      rootNode.classList.add(kl);
     });
     return html;
   }

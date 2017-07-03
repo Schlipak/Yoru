@@ -1,8 +1,8 @@
 //
-// 夜/小物/scribe.js
+// 夜/Utils/Scribe
 //
 
-import YoruArray from 'yoru/tsuika/array';
+import YoruArray from 'yoru/extensions/array';
 
 const Scribe = {
   upper: function(str = '') {
@@ -14,7 +14,19 @@ const Scribe = {
   },
 
   capitalize: function(str = '') {
+    return Scribe.upper(str.charAt(0)) + str.slice(1);
+  },
+
+  capitalizeStrict: function(str = '') {
     return Scribe.upper(str.charAt(0)) + Scribe.lower(str.slice(1));
+  },
+
+  uncapitalize: function(str = '') {
+    return Scribe.lower(str.charAt(0)) + str.slice(1);
+  },
+
+  uncapitalizeStrict: function(str = '') {
+    return Scribe.lower(str.charAt(0)) + Scribe.lower(str.slice(1));
   },
 
   capitalizeEach: function(str = '') {
@@ -26,13 +38,17 @@ const Scribe = {
       .join('');
   },
 
-  camelize: function(str = '') {
-    let words = str.split(/[-_\s]/);
+  constantize: function(str = '') {
+    let words = str.split(/[-_\s]|(?=[A-Z])/);
     return words
       .map(word => {
         return Scribe.capitalize(Scribe.lower(word));
       })
       .join('');
+  },
+
+  camelize: function(str = '') {
+    return Scribe.uncapitalize(Scribe.constantize(str));
   },
 
   dasherize: function(str = '') {

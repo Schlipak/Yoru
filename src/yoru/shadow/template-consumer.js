@@ -1,16 +1,16 @@
 //
-// 夜/影/template-consumer.js
+// 夜/Shadow/TemplateConsumer
 //
 
 import YoruObject from 'yoru/object';
-import { Logger, Scribe } from 'yoru/komono';
+import { Logger, Scribe } from 'yoru/utils';
 
 const PREFIX = 'yoru-';
 
 export default class TemplateConsumer extends YoruObject {
   constructor(app) {
     super(...arguments);
-    this.app = app;
+    this.set('app', app);
     this.templates = {};
 
     if (!('content' in document.createElement('template'))) {
@@ -38,7 +38,7 @@ export default class TemplateConsumer extends YoruObject {
       documentRoot.querySelectorAll(`template[id^="${PREFIX}"]`)
     );
     templates.forEach(template => {
-      const templateName = Scribe.camelize(template.id.slice(PREFIX.length));
+      const templateName = Scribe.constantize(template.id.slice(PREFIX.length));
       const htmlTagName = Scribe.dasherize(templateName);
 
       if (!htmlTagName.match(/[\w\d]+(?:-[\w\d]+)+/)) {
@@ -64,7 +64,7 @@ export default class TemplateConsumer extends YoruObject {
     });
   }
 
-  get(templateName) {
+  getTemplate(templateName) {
     return this.templates[templateName];
   }
 

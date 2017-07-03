@@ -1,11 +1,11 @@
 //
-// 夜/影/shadow-maker.js
+// 夜/Shadow/ShadowMaker
 //
 
 import YoruObject from 'yoru/object';
-import Component from 'yoru/kage/component';
-import { Scribe, Logger } from 'yoru/komono';
-import { YoruArray } from 'yoru/tsuika';
+import Component from 'yoru/shadow/component';
+import { Scribe, Logger } from 'yoru/utils';
+import { YoruArray } from 'yoru/extensions';
 import registerHelpers from './_hbs-helpers';
 const Handlebars = require('handlebars');
 
@@ -17,7 +17,11 @@ const __insertGlobalStyles = function __insertGlobalStyles(styles, target) {
   }
 };
 
-const __insertPartial = function __insertPartial(element, template, globalStyles) {
+const __insertPartial = function __insertPartial(
+  element,
+  template,
+  globalStyles
+) {
   const shadow = element.createShadowRoot({ mode: 'open' });
   __insertGlobalStyles(globalStyles, shadow);
   shadow.appendChild(template.content);
@@ -59,8 +63,8 @@ const __getElementsFromChildren = function __getElementsFromChildren(
 export default class ShadowMaker extends YoruObject {
   constructor(consumer) {
     super(...arguments);
-    this.consumer = consumer;
-    this.components = {};
+    this.set('consumer', consumer);
+    this.set('components', {});
     this.componentInstances = {};
     this.globalStyles = document.getElementById('global-styles');
 
@@ -77,7 +81,7 @@ export default class ShadowMaker extends YoruObject {
     );
 
     await Promise.all(
-      this.consumer.each().map(async ([name, template]) => {
+      this.get('consumer').each().map(async ([name, template]) => {
         const htmlTagName = Scribe.dasherize(name);
         let elements = [];
         if (__supportsGEBTN(rootNode)) {
@@ -87,7 +91,7 @@ export default class ShadowMaker extends YoruObject {
         }
         await Promise.all(
           Array.from(elements).map(async element => {
-            const componentData = this.components[name];
+            const componentData = this.get('components')[name];
             if (!componentData) {
               Logger.debug(
                 `No component named ${name} found. Defaulting behavior to partial.`
@@ -99,8 +103,13 @@ export default class ShadowMaker extends YoruObject {
                 componentData.options
               );
               Logger.debug(`Rendering component ${instance.objectId()}`);
-              await __insertComponent(element, template, instance, this.globalStyles);
-              this.consumer.app.documents.push(element.shadowRoot);
+              await __insertComponent(
+                element,
+                template,
+                instance,
+                this.globalStyles
+              );
+              this.get('consumer.app.documents').push(element.shadowRoot);
               return await this.parseDOM(element.shadowRoot);
             }
           })
@@ -110,6 +119,7 @@ export default class ShadowMaker extends YoruObject {
   }
 
   registerComponent(name, opts = {}) {
+    name = Scribe.constantize(name);
     Logger.debug(`Registering component ${name}`);
     let ctor = {};
     ctor[name] = class extends Component {
@@ -122,7 +132,7 @@ export default class ShadowMaker extends YoruObject {
         }
       }
     };
-    this.components[name] = {
+    this.get('components')[name] = {
       constructor: ctor[name],
       name: name,
       options: opts,

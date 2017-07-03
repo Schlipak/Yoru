@@ -1,8 +1,8 @@
 //
-// 夜/小物/run.js
+// 夜/Utils/Run
 //
 
-import { Logger } from 'yoru/komono';
+import { Logger } from 'yoru/utils';
 
 class RunInstance {
   constructor(id) {

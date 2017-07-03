@@ -70,4 +70,4 @@ const initApp = function initApp() {
   }
 };
 
-document.addEventListener('DOMContentLoaded', initApp);
+document.addEventListener('WebComponentsReady', initApp);

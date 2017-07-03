@@ -1,8 +1,8 @@
 //
-// 夜/影/_hbs-helpers.js
+// 夜/Shadow/_hbs-helpers
 //
 
-import { Logger, Scribe } from 'yoru/komono';
+import { Logger, Scribe } from 'yoru/utils';
 
 const helperIf = function helperIf(variable, options) {
   if (typeof options === typeof {}) {
@@ -25,7 +25,7 @@ export default function registerHelpers(Handlebars) {
 
     const data = Object.assign(options.data.root, options.hash);
     const component = data.__component__;
-    const yieldedContent = component.rootNode.innerHTML;
+    const yieldedContent = component.get('rootNode').innerHTML;
 
     let hbsTemplate = Handlebars.compile(yieldedContent);
     let html = hbsTemplate(data);
@@ -46,5 +46,25 @@ export default function registerHelpers(Handlebars) {
 
   Handlebars.registerHelper('lower', function(value) {
     return Scribe.lower(value);
+  });
+
+  Handlebars.registerHelper('or', function() {
+    let firstTruthy = null;
+    [...arguments].forEach(arg => {
+      if (arg && !firstTruthy) {
+        firstTruthy = arg;
+      }
+    });
+    return firstTruthy;
+  });
+
+  Handlebars.registerHelper('and', function() {
+    let lastTruthy = null;
+    [...arguments].forEach(arg => {
+      if (arg) {
+        lastTruthy = arg;
+      }
+    });
+    return lastTruthy;
   });
 }

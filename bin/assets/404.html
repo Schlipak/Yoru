@@ -1,16 +1,24 @@
-<template id="yoru-hello-yoru">
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>夜 ー ＹＯＲＵ | 418</title>
+  <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
   <style media="screen">
-    :host {
+    html, body {
       display: flex;
       justify-content: center;
       align-items: center;
       position: relative;
       width: 100%;
       height: 100%;
+      margin: 0;
+      padding: 0;
       background-color: rgba(0, 0, 0, .05);
+      overflow: hidden;
     }
 
-    #hello-container {
+    #error-container {
       display: flex;
       position: relative;
       flex-direction: column;
@@ -24,7 +32,7 @@
       font-family: "Lato", Verdana, sans-serif;
     }
 
-    #hello-container .content {
+    #error-container .content {
       font-size: 1.2em;
       line-height: 1.5;
     }
@@ -34,7 +42,7 @@
       flex-direction: row;
       justify-content: center;
       align-items: center;
-      color: #28C76F;
+      color: #EA5455;
     }
 
     h1.title span {
@@ -94,7 +102,9 @@
       }
     }
   </style>
-  <div id="hello-container">
+</head>
+<body>
+  <div id="error-container">
     <h1 class="title">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 30">
         <defs>
@@ -103,8 +113,8 @@
             <circle cx="15" cy="15" r="14" fill="white" stroke="white" stroke-width=".5" />
           </mask>
           <linearGradient id="eyeGradient" x1="0" y1="0" x2="30" y2="30" gradientUnits="userSpaceOnUse">
-            <stop offset="0%" stop-color="#81FBB8"></stop>
-            <stop offset="100%" stop-color="#28C76F"></stop>
+            <stop offset="0%" stop-color="#FEB692"></stop>
+            <stop offset="100%" stop-color="#EA5455"></stop>
           </linearGradient>
         </defs>
         <circle cx="15" cy="15" r="14" fill="url(#eyeGradient)"/>
@@ -114,11 +124,12 @@
     </h1>
     <div class="content">
       <p>
-        Welcome to your new app &laquo;&nbsp;{{appname}}&nbsp;&raquo;!
+        The application failed to load :(
       </p>
       <p>
-        If you see this page correctly, you're all set! You are free to delete this template and remove the <code>hello-yoru</code> component from <code>app/{{filename}}.js</code>.
+        This might simply not be a Yoru app. Please check your current directory and try again.
       </p>
     </div>
   </div>
-</template>
+</body>
+</html>

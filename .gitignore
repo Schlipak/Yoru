@@ -59,5 +59,6 @@ typings/
 
 # Project specific
 tmp/
+dist/*
 *~
 \#*\#

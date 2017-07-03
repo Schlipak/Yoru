@@ -1,9 +1,9 @@
 //
-// 夜/心/preloader.js
+// 夜/Internals/Preloader
 //
 
 import YoruObject from 'yoru/object';
-import { Logger, Run } from 'yoru/komono';
+import { Logger, Run } from 'yoru/utils';
 
 const PRELOAD_CSS = `body {
   transform: scale(1);
