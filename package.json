@@ -30,6 +30,7 @@
     "handlebars": "^4.0.10",
     "opn": "^5.1.0",
     "ora": "git+https://github.com/Schlipak/ora.git#add-promise-message",
+    "postinstall-build": "^5.0.0",
     "shortid": "^2.2.8",
     "spawn-async": "^0.0.1",
     "xmldom": "^0.1.27"
@@ -54,7 +55,8 @@
     "trans": "babel $npm_package_main src/ --out-dir tmp/",
     "pack": "webpack tmp/$npm_package_main dist/yoru.pkg.js",
     "min": "uglifyjs dist/yoru.pkg.js > dist/yoru.pkg.min.js",
-    "build": "mkdir -p dist/ tmp/ && npm run clean && npm run lint && npm run trans && npm run pack && npm run min"
+    "build": "mkdir -p dist/ tmp/ && npm run clean && npm run lint && npm run trans && npm run pack && npm run min",
+    "postinstall": "postinstall-build dist/yoru.pkg.js"
   },
   "repository": {
     "type": "git",
