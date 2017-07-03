@@ -28,7 +28,6 @@
     "express": "^4.15.3",
     "fs-extra": "^3.0.1",
     "handlebars": "^4.0.10",
-    "morgan": "^1.8.2",
     "opn": "^5.1.0",
     "ora": "git+https://github.com/Schlipak/ora.git#add-promise-message",
     "shortid": "^2.2.8",
@@ -49,7 +48,13 @@
     "webpack": "^2.5.1"
   },
   "scripts": {
-    "test": "echo 'No tests yet!' && exit 1"
+    "test": "echo 'No tests yet!' && exit 1",
+    "lint": "eslint test/ src/ $npm_package_main",
+    "clean": "rm -rf dist/* tmp/*",
+    "trans": "babel $npm_package_main src/ --out-dir tmp/",
+    "pack": "webpack tmp/$npm_package_main dist/yoru.pkg.js",
+    "min": "uglifyjs dist/yoru.pkg.js > dist/yoru.pkg.min.js",
+    "build": "mkdir -p dist/ tmp/ && npm run clean && npm run lint && npm run trans && npm run pack && npm run min"
   },
   "repository": {
     "type": "git",
