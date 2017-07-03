@@ -36,6 +36,7 @@
     "xmldom": "^0.1.27"
   },
   "devDependencies": {
+    "@webcomponents/webcomponentsjs": "^1.0.1",
     "babel-cli": "^6.24.1",
     "babel-eslint": "^6.1.2",
     "babel-plugin-transform-builtin-extend": "^1.1.2",

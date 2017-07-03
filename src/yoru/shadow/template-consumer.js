@@ -38,7 +38,7 @@ export default class TemplateConsumer extends YoruObject {
       documentRoot.querySelectorAll(`template[id^="${PREFIX}"]`)
     );
     templates.forEach(template => {
-      const templateName = Scribe.camelize(template.id.slice(PREFIX.length));
+      const templateName = Scribe.constantize(template.id.slice(PREFIX.length));
       const htmlTagName = Scribe.dasherize(templateName);
 
       if (!htmlTagName.match(/[\w\d]+(?:-[\w\d]+)+/)) {

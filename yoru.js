@@ -4,6 +4,7 @@
 
 require('babel-core/register');
 require('babel-polyfill');
+require('@webcomponents/webcomponentsjs/webcomponents-lite');
 
 const Handlebars = require('handlebars');
 

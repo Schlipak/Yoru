@@ -4,6 +4,7 @@
 
 import YoruObject from 'yoru/object';
 import { YoruArray } from 'yoru/extensions';
+import { Scribe } from 'yoru/utils';
 const Handlebars = require('handlebars');
 
 export default class Component extends YoruObject {
@@ -29,13 +30,13 @@ export default class Component extends YoruObject {
 
   consumeAttributeData() {
     const rootNode = this.get('rootNode');
-    const reg = /y:data:(.+)/;
+    const reg = /y:(.+)/;
     let attrData = {};
 
     YoruArray.from(rootNode.attributes).forEach(attr => {
       const match = reg.exec(attr.name);
       if (match) {
-        attrData[match[1]] = attr.value;
+        attrData[Scribe.camelize(match[1])] = attr.value;
       }
     });
 
