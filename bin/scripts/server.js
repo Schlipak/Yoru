@@ -100,7 +100,7 @@ module.exports = function () {
             if (error) {
               return Logger.error('Failed to subscribe: ', error);
             }
-            Logger.info('Now watching ' + chalk.cyan(watchPath) + ' for changes in ' + chalk.blue.bold(watchRelativePath));
+            Logger.info('Now watching ' + chalk.cyan(watchPath) + ' for changes in ' + chalk.blue.bold(watchRelativePath || '(none)'));
 
             _this.watchClient.on('subscription', function (resp) {
               if (resp.subscription !== 'yoruServer') return;

@@ -50,6 +50,14 @@ const initApp = function initApp() {
       model() {
         return { lang: 'js' };
       },
+
+      afterAppend() {
+        if (window.hljs) {
+          const block = this.get('shadow').querySelector('pre code');
+          hljs.highlightBlock(block);
+          hljs.lineNumbersBlock(block);
+        }
+      }
     });
 
     app.registerComponent('demoFooter', {
@@ -59,13 +67,7 @@ const initApp = function initApp() {
     });
 
     app.boot().then(() => {
-      if (window.hljs) {
-        const codeBlocks = app.find('pre code');
-        codeBlocks.forEach(block => {
-          hljs.highlightBlock(block);
-          hljs.lineNumbersBlock(block);
-        });
-      }
+      Yoru.Logger.info('App is now done booting');
     });
   }
 };

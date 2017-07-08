@@ -102,7 +102,9 @@ module.exports = class server {
                 Logger.info(
                   `Now watching ${chalk.cyan(
                     watchPath
-                  )} for changes in ${chalk.blue.bold(watchRelativePath)}`
+                  )} for changes in ${chalk.blue.bold(
+                    watchRelativePath || '(none)'
+                  )}`
                 );
 
                 this.watchClient.on('subscription', resp => {
