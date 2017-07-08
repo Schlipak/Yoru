@@ -4,6 +4,7 @@ const cheerio = require('cheerio');
 const fs = require('fs-extra');
 const ora = require('ora');
 const path = require('path');
+const os = require('os');
 
 const { Logger, SilentLogger, Run, ShSpawn, Scribe } = require('./utils');
 
@@ -43,14 +44,10 @@ const copySkeletonFiles = async function copySkeletonFiles(name) {
   strmIn.pipe(strmOut);
 
   // favicons
-  strmIn = fs.createReadStream(
-    path.join(__dirname, '/../assets/favicon.ico')
-  );
+  strmIn = fs.createReadStream(path.join(__dirname, '/../assets/favicon.ico'));
   strmOut = fs.createWriteStream('assets/favicon.ico');
   strmIn.pipe(strmOut);
-  strmIn = fs.createReadStream(
-    path.join(__dirname, '/../assets/favicon.png')
-  );
+  strmIn = fs.createReadStream(path.join(__dirname, '/../assets/favicon.png'));
   strmOut = fs.createWriteStream('assets/favicon.png');
   strmIn.pipe(strmOut);
 };
@@ -76,8 +73,8 @@ const createPackageJson = async function createPackageJson(name) {
     scripts: {
       test: 'echo "Error: no test specified" && exit 1',
     },
-    keywords: ['yoru'],
-    author: '',
+    keywords: ['yoru', name],
+    author: os.userInfo().username,
     license: 'MIT',
     dependencies: {
       yoru: 'https://github.com/Schlipak/Yoru',
@@ -114,9 +111,7 @@ const newApp = async function newApp(name, manager) {
   name = Scribe.dasherize(name);
   if (!/^[\w\d][\w\d-]*$/.test(name)) {
     Logger.error(`Invalid app name \`${name}'`);
-    Logger.error(
-      'Name must match /^[\\w\\d][\\w\\d-]*$/'
-    );
+    Logger.error('Name must match /^[\\w\\d][\\w\\d-]*$/');
     process.exit(1);
   }
   Logger.info(`Creating new Yoru app \`${name}'`);

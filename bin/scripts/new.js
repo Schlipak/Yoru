@@ -8,6 +8,7 @@ var cheerio = require('cheerio');
 var fs = require('fs-extra');
 var ora = require('ora');
 var path = require('path');
+var os = require('os');
 
 var _require = require('./utils'),
     Logger = _require.Logger,
@@ -135,8 +136,8 @@ var createPackageJson = function () {
               scripts: {
                 test: 'echo "Error: no test specified" && exit 1'
               },
-              keywords: ['yoru'],
-              author: '',
+              keywords: ['yoru', name],
+              author: os.userInfo().username,
               license: 'MIT',
               dependencies: {
                 yoru: 'https://github.com/Schlipak/Yoru'
