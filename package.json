@@ -26,6 +26,8 @@
     "cheerio": "^1.0.0-rc.1",
     "commander": "^2.9.0",
     "express": "^4.15.3",
+    "express-ws": "^3.0.0",
+    "fb-watchman": "^2.0.0",
     "fs-extra": "^3.0.1",
     "handlebars": "^4.0.10",
     "opn": "^5.1.0",

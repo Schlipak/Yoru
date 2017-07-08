@@ -9,17 +9,25 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 var chalk = require('chalk');
 var spawnAsync = require('spawn-async');
 
-var verbs = [{ name: 'log', color: 'bold' }, { name: 'debug', color: 'magenta' }, { name: 'info', color: 'blue' }, { name: 'warn', color: 'yellow' }, { name: 'error', color: 'red' }];
+var VERBS = [{ name: 'log', color: 'bold' }, { name: 'debug', color: 'cyan' }, { name: 'info', color: 'blue' }, { name: 'warn', color: 'yellow' }, { name: 'error', color: 'red' }, { name: 'http', color: 'bold' }];
 
-var Logger = {};
-verbs.forEach(function (verb) {
-  Logger[verb.name] = function (message) {
-    console[verb.name]('\r[' + chalk[verb.color](verb.name.toUpperCase()) + '] ' + message);
-  };
-});
+var LoggerProxyHandler = {
+  get: function get(target, req) {
+    var verb = VERBS.find(function (v) {
+      return v.name === req;
+    }) || {
+      name: req,
+      color: 'magenta'
+    };
+    return function (message) {
+      (console[verb.name] || console.log)('\r[' + chalk[verb.color](verb.name.toUpperCase()) + '] ' + message);
+    };
+  }
+};
+var Logger = new Proxy({}, LoggerProxyHandler);
 
 var SilentLogger = {};
-verbs.forEach(function (verb) {
+VERBS.forEach(function (verb) {
   SilentLogger[verb.name] = function () {};
 });
 

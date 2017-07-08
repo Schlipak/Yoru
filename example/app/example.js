@@ -55,7 +55,7 @@ const initApp = function initApp() {
     app.registerComponent('demoFooter', {
       model() {
         return {};
-      }
+      },
     });
 
     app.boot().then(() => {

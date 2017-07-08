@@ -3,25 +3,32 @@
 const chalk = require('chalk');
 const spawnAsync = require('spawn-async');
 
-const verbs = [
+const VERBS = [
   { name: 'log', color: 'bold' },
-  { name: 'debug', color: 'magenta' },
+  { name: 'debug', color: 'cyan' },
   { name: 'info', color: 'blue' },
   { name: 'warn', color: 'yellow' },
   { name: 'error', color: 'red' },
+  { name: 'http', color: 'bold' },
 ];
 
-const Logger = {};
-verbs.forEach(verb => {
-  Logger[verb.name] = message => {
-    console[verb.name](
-      `\r[${chalk[verb.color](verb.name.toUpperCase())}] ${message}`
-    );
-  };
-});
+const LoggerProxyHandler = {
+  get: (target, req) => {
+    const verb = VERBS.find(v => v.name === req) || {
+      name: req,
+      color: 'magenta',
+    };
+    return message => {
+      (console[verb.name] || console.log)(
+        `\r[${chalk[verb.color](verb.name.toUpperCase())}] ${message}`
+      );
+    };
+  },
+};
+const Logger = new Proxy({}, LoggerProxyHandler);
 
 const SilentLogger = {};
-verbs.forEach(verb => {
+VERBS.forEach(verb => {
   SilentLogger[verb.name] = () => {};
 });
 
