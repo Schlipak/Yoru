@@ -1,5 +1,5 @@
 //
-// 夜/object.js
+// 夜/Object
 //
 
 const Shortid = require('shortid');

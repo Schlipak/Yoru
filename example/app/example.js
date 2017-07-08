@@ -1,6 +1,6 @@
 const initApp = function initApp() {
   if (window.Yoru) {
-    const app = new Yoru();
+    const app = new Yoru.App();
 
     app.registerComponent('DemoHeading', {
       classes: ['heading'],
